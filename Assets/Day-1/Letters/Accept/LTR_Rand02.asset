@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand02
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R02
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Marcus Webb
+  senderAddress: 14 King's Road, London
+  fanProfileID: 
+  addressedName: Dear Aurora
+  addressedCorrectly: 1
+  signatureName: Marcus Webb
+  signedCorrectly: 1
+  letterContent: My daughter is turning seven next week and she adores you. She listens
+    to Starlight on repeat every single day. It would mean the world if you could
+    send a birthday message. We would be forever grateful.
+  sentenceCount: 3
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 0
+  postageType: 0
+  weight: 20
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -2488557809000128544, guid: 56e793fe06cf19445917ef1c316ea12d, type: 3}
+  visualClues: []
+  replyCategory: 1
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

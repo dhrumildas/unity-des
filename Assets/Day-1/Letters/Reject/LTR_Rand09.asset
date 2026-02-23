@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand09
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R09
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Derek Lawson
+  senderAddress: 5 Harbour View, Sydney
+  fanProfileID: 
+  addressedName: Dear Ms. Wish
+  addressedCorrectly: 0
+  signatureName: Derek Lawson
+  signedCorrectly: 1
+  letterContent: I am a journalist writing an article on modern pop culture icons.
+    Your rise to fame has been nothing short of meteoric. I would love to schedule
+    an interview at your convenience. My editor has given me a two week deadline
+    for this piece. I have previously interviewed several other artists in your genre.
+    I believe our readers would love to hear your perspective. Please let your management
+    know I reached out.
+  sentenceCount: 7
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 6
+  postageType: 1
+  weight: 30
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -7039243800961175712, guid: f30d2de0689c44749815c462bf179086, type: 3}
+  visualClues: []
+  replyCategory: 4
+  replyTextOverride: This letter does not meet submission requirements.
+  idealAction: 2
+  brokenRuleIDs:
+  - ADDR_WRONG
+  - SENTENCE_OVER

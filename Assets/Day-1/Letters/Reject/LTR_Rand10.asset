@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand10
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R10
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Unknown
+  senderAddress: 
+  fanProfileID: 
+  addressedName: Occupant
+  addressedCorrectly: 1
+  signatureName: 
+  signedCorrectly: 1
+  letterContent: This is an automated notice regarding your subscription renewal.
+    Your account is set to expire within the next thirty days. To avoid service interruption
+    please update your payment details. Visit our secure portal to confirm your identity.
+    Failure to respond will result in account termination. Thank you for your continued
+    patronage.
+  sentenceCount: 6
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 2
+  postageType: 2
+  weight: 10
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -117601332951816804, guid: 3c37dbc9d816c704493fd1f88f9bab4d, type: 3}
+  visualClues: []
+  replyCategory: 4
+  replyTextOverride: This letter does not meet submission requirements.
+  idealAction: 2
+  brokenRuleIDs:
+  - ADDR_WRONG
+  - SIGN_WRONG
+  - SENTENCE_OVER

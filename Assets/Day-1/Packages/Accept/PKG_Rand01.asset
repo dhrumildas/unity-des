@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: PKG_Rand01
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R12
+  mailType: 1
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Maelle
+  senderAddress: "127 Avenue du R\xEAve Dor\xE9, 75004 Paris"
+  fanProfileID: 
+  addressedName: Dear Aurora
+  addressedCorrectly: 1
+  signatureName: Maelle
+  signedCorrectly: 1
+  letterContent: It took me days and a lot of effort to make this paining. Please
+    accept it as a token of my affection
+  sentenceCount: 2
+  containsQuestion: 0
+  letterContentImage: {fileID: 5434052794432555120, guid: 9bbb976d9f532d141b10776ed9aa8903, type: 3}
+  isEncrypted: 0
+  countryOfOrigin: 4
+  postageType: 1
+  weight: 200
+  dimensions: {x: 30, y: 20}
+  packageSideSprites:
+  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
+  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
+  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
+  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
+  itemInsideDescription: Fan art print
+  itemInsideSprite: {fileID: 1295955565587498720, guid: 8065ebe0b1a05874880e23719fa971aa, type: 3}
+  customsFormDescription: Art print
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 10
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -25373444073448429, guid: 8106f173a7bb75249ba8c98e1c00a3a0, type: 3}
+  visualClues: []
+  replyCategory: 0
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

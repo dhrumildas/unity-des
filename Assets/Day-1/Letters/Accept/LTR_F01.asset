@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_F01
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: F01
+  mailType: 0
+  appearanceDay: 1
+  importance: 1
+  spawnType: 0
+  senderName: Florian de Vries
+  senderAddress: 23 Blumenstrasse
+  fanProfileID: FAN_FLORIAN
+  addressedName: My Dear Sweet Aurora
+  addressedCorrectly: 1
+  signatureName: Florian de Vries
+  signedCorrectly: 1
+  letterContent: The stars themselves pale in comparison to the light you bring to
+    this world. I wrote a poem for you, but words could never capture your radiance.
+    I enclosed a pressed rose from my garden, it reminded me of your elegance. Until
+    we meet, I remain devoted.
+  sentenceCount: 3
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 3
+  postageType: 1
+  weight: 35
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -7490063652139119847, guid: 51a4b7554eabd504f9b6563728917ade, type: 3}
+  visualClues: []
+  replyCategory: 0
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

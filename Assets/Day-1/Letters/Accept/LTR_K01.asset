@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_K01
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: K01
+  mailType: 0
+  appearanceDay: 1
+  importance: 1
+  spawnType: 0
+  senderName: Katsuki
+  senderAddress: 42 Neon Lane, Shibuya
+  fanProfileID: FAN_KATSUKI
+  addressedName: Aurora Wish
+  addressedCorrectly: 1
+  signatureName: Katsuki Tanaka
+  signedCorrectly: 1
+  letterContent: "I\u2019m glad you\u2019re making music again after your old contract
+    ended, but I\u2019m worried about AVA and I think you should be careful.  \r\n\r\nNobody\u2019s
+    really put it all together, but there\u2019s a TON of crazy stuff about them
+    going back like a decade. \r\n\r\nPls reply to this if you get it, ok? I want
+    to help. "
+  sentenceCount: 4
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 1
+  postageType: 0
+  weight: 30
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: 1362159985855003697, guid: bef8ad4d8de71a844aa78cb7ba7c7ab2, type: 3}
+  visualClues: []
+  replyCategory: 1
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

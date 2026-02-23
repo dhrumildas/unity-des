@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand06
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R06
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Tommy Jenkins
+  senderAddress: 33 Elm Drive, Toronto
+  fanProfileID: 
+  addressedName: Yo
+  addressedCorrectly: 0
+  signatureName: Tommy Jenkins
+  signedCorrectly: 1
+  letterContent: My baby boo told me to write to you so here I am I guess. Your song
+    was on the radio and it was aight
+  sentenceCount: 2
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 5
+  postageType: 0
+  weight: 50
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: 6388389237426139460, guid: 40ae28436bb3fc443a639c2c9918c3bb, type: 3}
+  visualClues: []
+  replyCategory: 4
+  replyTextOverride: Thanks for reaching out! Please address your letter directly
+    to Aurora Wish and resend.
+  idealAction: 1
+  brokenRuleIDs:
+  - ADDR_WRONG

@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_J01
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: J01
+  mailType: 0
+  appearanceDay: 1
+  importance: 1
+  spawnType: 0
+  senderName: Jess
+  senderAddress: 7B Park View Apartments, Neo-Bristol
+  fanProfileID: FAN_JESS
+  addressedName: Dear Aurora Wish
+  addressedCorrectly: 1
+  signatureName: Jess
+  signedCorrectly: 1
+  letterContent: 'My name is Jess ^u^. I met you last year at AVA-Con (Which I''m
+    so sad was a one-time event!!!!!) during the poster signing. Do you remember
+    me??
+
+
+
+    Anyway, I''m writing cause my mom sold your poster for bills last
+    month and I was wondering if I could have another one cause I was using it to
+    plug the draft from the hole in my wall that goes outside LOL. You''re so awesome!!
+    //^.^//'
+  sentenceCount: 4
+  containsQuestion: 1
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 0
+  postageType: 1
+  weight: 20
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: 8019122767751383630, guid: 7c09f043531de4740a1d31d2c7daa7d5, type: 3}
+  visualClues: []
+  replyCategory: 1
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: PKG_Rand02
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R13
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Carlos Mendez
+  senderAddress: 8 Sol Avenue, Mexico City
+  fanProfileID: 
+  addressedName: Aurora Wish
+  addressedCorrectly: 1
+  signatureName: Carlos Mendez
+  signedCorrectly: 1
+  letterContent: My little sister picked this bear because she said it looks like
+    you. We hope it makes you smile.
+  sentenceCount: 3
+  containsQuestion: 0
+  letterContentImage: {fileID: 1269677394170565282, guid: ccd7a11f71dcd6d41a2c26269d031268, type: 3}
+  isEncrypted: 0
+  countryOfOrigin: 0
+  postageType: 0
+  weight: 500
+  dimensions: {x: 25, y: 20}
+  packageSideSprites:
+  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
+  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
+  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
+  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
+  itemInsideDescription: Plush teddy bear
+  itemInsideSprite: {fileID: 6532836701777844110, guid: 9e8698712b6e2c642988a98b1dea9ee6, type: 3}
+  customsFormDescription: Stuffed toy
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 15
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -2488557809000128544, guid: 56e793fe06cf19445917ef1c316ea12d, type: 3}
+  visualClues: []
+  replyCategory: 1
+  replyTextOverride: 
+  idealAction: 0
+  brokenRuleIDs: []

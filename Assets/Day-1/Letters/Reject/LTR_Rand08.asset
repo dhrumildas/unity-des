@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand08
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R08
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Pis Tachio
+  senderAddress: 77 Industrial Park, Frankfurt
+  fanProfileID: 
+  addressedName: To Whom It May Concern
+  addressedCorrectly: 0
+  signatureName: 
+  signedCorrectly: 0
+  letterContent: I have some business opportunities that may interest your client.
+    Please have them contact my office at their earliest convenience. Regards.
+  sentenceCount: 3
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 3
+  postageType: 0
+  weight: 15
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: -3760890738466378106, guid: ddf97700fce31b044be8d897af164a1b, type: 3}
+  visualClues: []
+  replyCategory: 4
+  replyTextOverride: This letter does not meet submission requirements.
+  idealAction: 2
+  brokenRuleIDs:
+  - ADDR_WRONG
+  - SIGN_WRONG

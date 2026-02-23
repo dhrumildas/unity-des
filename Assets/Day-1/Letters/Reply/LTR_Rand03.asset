@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: LTR_Rand03
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: R03
+  mailType: 0
+  appearanceDay: 1
+  importance: 0
+  spawnType: 1
+  senderName: Jake Morrison
+  senderAddress: 55 Sunset Blvd, Los Angeles
+  fanProfileID: 
+  addressedName: Dear Urora Wish
+  addressedCorrectly: 1
+  signatureName: 
+  signedCorrectly: 1
+  letterContent: You are such an inspiration to me and my friends. We started a fan
+    club at our school because of you. Keep shining.
+  sentenceCount: 3
+  containsQuestion: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 2
+  postageType: 0
+  weight: 20
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: 6314720742527739986, guid: 642fce8f9cb4b12478e8bd2417aa376a, type: 3}
+  visualClues: []
+  replyCategory: 4
+  replyTextOverride: Thanks for writing! Please ensure Aurora's name is spelled correctly
+    and try again.
+  idealAction: 1
+  brokenRuleIDs:
+  - ADDR_WRONG
