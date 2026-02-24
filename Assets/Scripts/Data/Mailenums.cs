@@ -67,4 +67,13 @@ namespace MailSorting.Data
         Guaranteed,     // Always spawns on its appearance day
         Random          // Drawn randomly from the pool to fill the shift
     }
+
+    public enum LetterOffenceType
+    {
+        None,
+        Threatening,
+        Stalking,
+        Inappropriate,
+        Other
+    }
 }

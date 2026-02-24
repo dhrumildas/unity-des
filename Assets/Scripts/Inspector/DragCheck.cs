@@ -14,7 +14,6 @@ public class DragCheck : MonoBehaviour
     [SerializeField] private Collider2D rulerCollider;
     [SerializeField] private Collider2D weighingscaleCollider;
 
-    private bool isInZone = false;
     [SerializeField] private GameObject inspectButton;
 
     private bool isHoveringRuler = false;

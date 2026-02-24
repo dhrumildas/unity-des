@@ -107,6 +107,14 @@ namespace MailSorting.Data
         [Tooltip("What type of substance")]
         public SubstanceType substanceType = SubstanceType.None;
 
+        [Header("Letter-Specific Offences")]
+        [Tooltip("Does the written content violate safety policies?")]
+        public bool containsOffence = false;
+
+        [Tooltip("What type of written offence?")]
+        public LetterOffenceType offenceType = LetterOffenceType.None;
+
+
         [Tooltip("Monetary value of gift inside")]
         [Range(0, 10000)]
         public int giftValue = 0;
@@ -137,7 +145,7 @@ namespace MailSorting.Data
         [Tooltip("The correct action for this mail item — set manually")]
         public MailAction idealAction = MailAction.Accept;
 
-        [Tooltip("List of rule IDs this mail violates e.g. ADDR_WRONG, SIGN_WRONG, SENTENCE_OVER, CONTRABAND, SUBSTANCE")]
+        [Tooltip("List of rule IDs this mail violates e.g. ADDR_WRONG, SIGN_WRONG, SENTENCE_OVER, CONTRABAND, SUBSTANCE, SUSPICIOUS_OFFENCE")]
         public string[] brokenRuleIDs;
 
         public bool ValidateIdealAction()
@@ -149,6 +157,7 @@ namespace MailSorting.Data
         {
             if (containsContraband) return MailAction.Report;
             if (containsSubstance) return MailAction.Report;
+            if (containsOffence) return MailAction.Report;
 
             int violations = 0;
 
