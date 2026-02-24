@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa4cacb71b944d94fbc9ca626f91c, type: 3}
+  m_Name: DayConfig
+  m_EditorClassIdentifier: Assembly-CSharp::DayConfig
+  dayNumber: 1
+  totalMailCount: 10
+  spawnInterval: 1
+  dayDuration: 60
+  guaranteedMail:
+  - {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
+  - {fileID: 11400000, guid: cbee4033df937104fb2fdfccd0157e72, type: 2}
+  - {fileID: 11400000, guid: d53ef16905223e5458ec5d63c2dca406, type: 2}
+  - {fileID: 11400000, guid: 62a9841fcbaf11d44a399bb684836fc2, type: 2}
+  - {fileID: 11400000, guid: f65ae7e3fd0895c469913c801be541cd, type: 2}
+  - {fileID: 11400000, guid: 36d9623f09be6b14ea35cfb20db02e94, type: 2}
+  randomPool:
+  - mailData: {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: cd8c38e1b358fbc498983418f1e985d5, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 1a067a17d96fd4c4dbff0f1cb20b7996, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 679d5d51b0acd1d4baf39270ce064b22, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 91f8c428713130e45b2579ce5b668b90, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 62a9841fcbaf11d44a399bb684836fc2, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 6bba5e7fe205ea14999b3911f13f5138, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 07663be0ab3adfb48b53df70cdd61db3, type: 2}
+    weight: 0
