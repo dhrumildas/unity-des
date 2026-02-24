@@ -14,6 +14,9 @@ public class DragCheck : MonoBehaviour
     [SerializeField] private Collider2D rulerCollider;
     [SerializeField] private Collider2D weighingscaleCollider;
 
+    private bool isInZone = false;
+    [SerializeField] private GameObject inspectButton;
+
     private bool isHoveringRuler = false;
     private bool isHoveringScale = false;
 
@@ -43,10 +46,13 @@ public class DragCheck : MonoBehaviour
         if (dropZoneCollider != null && IsFullyInside(thisCollider.bounds, dropZoneCollider.bounds))
         {
             Debug.Log("Dropped in the zone!");
+            inspectButton.SetActive(true);
         }
         else
         {
             transform.position = ogPos;
+            inspectButton.SetActive(false);
+             ClearTooltips();
         }
     }
 
