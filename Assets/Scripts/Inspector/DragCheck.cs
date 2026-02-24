@@ -63,7 +63,7 @@ public class DragCheck : MonoBehaviour
                 btn.onClick.AddListener(() =>
                 {
                     if (inspectionManager != null)
-                        inspectionManager.InspectMail(mailData);
+                        inspectionManager.InspectMail(mailData,gameObject);
 
                     inspectButton.SetActive(false);
                 });

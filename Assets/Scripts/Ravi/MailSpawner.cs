@@ -31,6 +31,7 @@ public class MailSpawner : MonoBehaviour
 
     private List<Mail_Items_SO> spawnQueue = new List<Mail_Items_SO>();
     private int spawnedCount = 0;
+    private bool waitingForSort = false;
 
     void Start()
     {
@@ -94,11 +95,18 @@ public class MailSpawner : MonoBehaviour
 
         while (spawnedCount < spawnQueue.Count)
         {
+            waitingForSort = true;
             SpawnMail(spawnQueue[spawnedCount]);
             spawnedCount++;
+
+            yield return new WaitUntil(() => waitingForSort == false);
         }
 
         Debug.Log("[Spawner] All mail delivered for today.");
+    }
+    public void OnMailSorted()
+    {
+        waitingForSort = false;
     }
 
     void SpawnMail(Mail_Items_SO data)
