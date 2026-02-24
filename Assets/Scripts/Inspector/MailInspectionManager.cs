@@ -41,6 +41,7 @@ namespace MailSorting.UI
 
         // State
         private Mail_Items_SO currentMail;
+        private GameObject currentMailObject;
         private bool isInspecting = false;
 
         // Events — other systems (scoring, spawner) can subscribe to these
@@ -86,11 +87,12 @@ namespace MailSorting.UI
         /// <summary>
         /// Opens the appropriate inspection panel for the given mail item.
         /// </summary>
-        public void InspectMail(Mail_Items_SO mailData)
+        public void InspectMail(Mail_Items_SO mailData, GameObject mailObject)
         {
             if (mailData == null) return;
 
             currentMail = mailData;
+            currentMailObject = mailObject;
             isInspecting = true;
 
             if (mailData.mailType == MailType.Letter)
@@ -170,7 +172,11 @@ namespace MailSorting.UI
 
             // Notify subscribers (scoring system, mail spawner, etc.)
             OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
+            FindObjectOfType<MailSpawner>()?.OnMailSorted();
+            if (currentMailObject != null)
+                Destroy(currentMailObject);
 
+            currentMailObject = null;
             // Clear state
             currentMail = null;
             isInspecting = false;
