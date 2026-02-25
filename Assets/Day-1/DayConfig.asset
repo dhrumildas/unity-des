@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DayConfig
   m_EditorClassIdentifier: Assembly-CSharp::DayConfig
   dayNumber: 1
-  totalMailCount: 10
-  spawnInterval: 1
-  dayDuration: 60
+  totalMailCount: 0
+  spawnInterval: 0
+  dayDuration: 0
   guaranteedMail:
   - {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
   - {fileID: 11400000, guid: cbee4033df937104fb2fdfccd0157e72, type: 2}
