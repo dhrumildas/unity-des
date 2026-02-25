@@ -135,6 +135,10 @@ public class MailSpawner : MonoBehaviour
         }
 
         Debug.Log("[Spawner] All mail delivered for today.");
+        if (DayEndPanel.Instance != null)
+            DayEndPanel.Instance.Show();
+        else
+            Debug.LogError("[Spawner] DayEndPanel.Instance is null!");
     }
     public void OnMailSorted()
     {
