@@ -55,6 +55,8 @@ MonoBehaviour:
   containsMetal: 0
   containsSubstance: 0
   substanceType: 0
+  containsOffence: 0
+  offenceType: 0
   giftValue: 0
   mailSprite: {fileID: 0}
   contentSprite: {fileID: 0}

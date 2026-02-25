@@ -10,11 +10,14 @@ public class DragCheck : MonoBehaviour
     private Vector3 offset;
     private Collider2D thisCollider;
     private Camera mainCamera;
+    private MailSorting.UI.MailInspectionManager inspectionManager;
     public Mail_Items_SO mailData;
-    [SerializeField] private Collider2D rulerCollider;
-    [SerializeField] private Collider2D weighingscaleCollider;
-
-    [SerializeField] private GameObject inspectButton;
+    public Collider2D rulerCollider;
+    public Collider2D weighingscaleCollider;
+    public GameObject inspectButton;
+    //[SerializeField] private Collider2D rulerCollider;
+    //[SerializeField] private Collider2D weighingscaleCollider;
+    //[SerializeField] private GameObject inspectButton;
 
     private bool isHoveringRuler = false;
     private bool isHoveringScale = false;
@@ -25,6 +28,11 @@ public class DragCheck : MonoBehaviour
         mainCamera = Camera.main;
         thisCollider = GetComponent<Collider2D>();
         ogPos = transform.position;
+    }
+
+    public void SetInspectionManager(MailSorting.UI.MailInspectionManager manager)
+    {
+        inspectionManager = manager;
     }
 
     private void OnMouseDown()
@@ -46,12 +54,26 @@ public class DragCheck : MonoBehaviour
         {
             Debug.Log("Dropped in the zone!");
             inspectButton.SetActive(true);
+
+            // wire the button to open the correct inspection panel
+            var btn = inspectButton.GetComponent<UnityEngine.UI.Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() =>
+                {
+                    if (inspectionManager != null)
+                        inspectionManager.InspectMail(mailData,gameObject);
+
+                    inspectButton.SetActive(false);
+                });
+            }
         }
         else
         {
             transform.position = ogPos;
             inspectButton.SetActive(false);
-             ClearTooltips();
+            ClearTooltips();
         }
     }
 

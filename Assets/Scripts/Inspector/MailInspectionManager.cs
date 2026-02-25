@@ -41,6 +41,7 @@ namespace MailSorting.UI
 
         // State
         private Mail_Items_SO currentMail;
+        private GameObject currentMailObject;
         private bool isInspecting = false;
 
         // Events — other systems (scoring, spawner) can subscribe to these
@@ -65,7 +66,7 @@ namespace MailSorting.UI
             // Start everything hidden
             actionButtonsPanel.SetActive(false);
             reportPanel.SetActive(false);
-            feedbackPopup.SetActive(false);
+            //feedbackPopup.SetActive(false);
         }
 
         private void Update()
@@ -86,11 +87,12 @@ namespace MailSorting.UI
         /// <summary>
         /// Opens the appropriate inspection panel for the given mail item.
         /// </summary>
-        public void InspectMail(Mail_Items_SO mailData)
+        public void InspectMail(Mail_Items_SO mailData, GameObject mailObject)
         {
             if (mailData == null) return;
 
             currentMail = mailData;
+            currentMailObject = mailObject;
             isInspecting = true;
 
             if (mailData.mailType == MailType.Letter)
@@ -166,11 +168,22 @@ namespace MailSorting.UI
             CloseAllPanels();
 
             // Show feedback
-            ShowFeedback(message, scoreChange);
+            //ShowFeedback(message, scoreChange);
 
             // Notify subscribers (scoring system, mail spawner, etc.)
             OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
+            FindObjectOfType<MailSpawner>()?.OnMailSorted();
 
+            if (isCorrect)
+                HUDManager.Instance.OnCorrectSort();
+            else
+                HUDManager.Instance.OnWrongSort();
+
+            // destroy the physical letter from the desk
+            if (currentMailObject != null)
+                Destroy(currentMailObject);
+
+            currentMailObject = null;
             // Clear state
             currentMail = null;
             isInspecting = false;
@@ -226,32 +239,32 @@ namespace MailSorting.UI
         // FEEDBACK
         // =====================================================================
 
-        private void ShowFeedback(string message, int scoreChange)
-        {
-            feedbackText.text = message;
+        //private void ShowFeedback(string message, int scoreChange)
+        //{
+        //    feedbackText.text = message;
 
-            if (scoreChange >= 0)
-            {
-                scoreChangedText.text = "+" + scoreChange + " BP";
-                scoreChangedText.color = Color.green;
-            }
-            else
-            {
-                scoreChangedText.text = scoreChange + " BP";
-                scoreChangedText.color = Color.red;
-            }
+        //    if (scoreChange >= 0)
+        //    {
+        //        scoreChangedText.text = "+" + scoreChange + " BP";
+        //        scoreChangedText.color = Color.green;
+        //    }
+        //    else
+        //    {
+        //        scoreChangedText.text = scoreChange + " BP";
+        //        scoreChangedText.color = Color.red;
+        //    }
 
-            feedbackPopup.SetActive(true);
+        //    feedbackPopup.SetActive(true);
 
-            // Auto-dismiss after duration
-            CancelInvoke(nameof(HideFeedback));
-            Invoke(nameof(HideFeedback), feedbackDuration);
-        }
+        //    // Auto-dismiss after duration
+        //    CancelInvoke(nameof(HideFeedback));
+        //    Invoke(nameof(HideFeedback), feedbackDuration);
+        //}
 
-        private void HideFeedback()
-        {
-            feedbackPopup.SetActive(false);
-        }
+        //private void HideFeedback()
+        //{
+        //    feedbackPopup.SetActive(false);
+        //}
 
         // =====================================================================
         // PANEL MANAGEMENT
