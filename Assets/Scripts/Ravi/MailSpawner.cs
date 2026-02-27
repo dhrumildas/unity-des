@@ -39,32 +39,10 @@ public class MailSpawner : MonoBehaviour
         StartCoroutine(SpawnLoop());
     }
 
-    //void BuildSpawnQueue()
-    //{
-    //    spawnQueue.Clear();
-
-    //    if (dayConfig.guaranteedMail != null)
-    //        foreach (var mail in dayConfig.guaranteedMail)
-    //            if (mail != null) spawnQueue.Add(mail);
-
-    //    int remaining = dayConfig.totalMailCount - spawnQueue.Count;
-    //    for (int i = 0; i < remaining; i++)
-    //    {
-    //        Mail_Items_SO picked = PickRandom();
-    //        if (picked != null) spawnQueue.Add(picked);
-    //    }
-
-    //    int guaranteedCount = dayConfig.guaranteedMail?.Count ?? 0;
-    //    ShuffleFrom(spawnQueue, guaranteedCount);
-
-    //    Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — {spawnQueue.Count} items queued");
-    //}
-
-
-
     void BuildSpawnQueue()
     {
         spawnQueue.Clear();
+
         if (dayConfig.guaranteedMail != null)
             foreach (var mail in dayConfig.guaranteedMail)
                 if (mail != null) spawnQueue.Add(mail);
@@ -76,20 +54,10 @@ public class MailSpawner : MonoBehaviour
             if (picked != null) spawnQueue.Add(picked);
         }
 
-        ShuffleComplete(spawnQueue);
-        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — {spawnQueue.Count} items queued");
-    }
+        int guaranteedCount = dayConfig.guaranteedMail?.Count ?? 0;
+        ShuffleFrom(spawnQueue, guaranteedCount);
 
-    private void ShuffleComplete(List<Mail_Items_SO> spawnQueue)
-    {
-        for(int i = spawnQueue.Count - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            
-            Mail_Items_SO temp = spawnQueue[i];
-            spawnQueue[i] = spawnQueue[j];
-            spawnQueue[j] = temp;
-        }
+        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — {spawnQueue.Count} items queued");
     }
 
     Mail_Items_SO PickRandom()

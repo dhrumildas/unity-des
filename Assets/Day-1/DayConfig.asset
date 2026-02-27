@@ -13,49 +13,32 @@ MonoBehaviour:
   m_Name: DayConfig
   m_EditorClassIdentifier: Assembly-CSharp::DayConfig
   dayNumber: 1
-  totalMailCount: 15
-  spawnInterval: 1
-  dayDuration: 60
+  totalMailCount: 0
+  spawnInterval: 0
+  dayDuration: 0
   guaranteedMail:
   - {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
-  - {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
-  - {fileID: 11400000, guid: cd8c38e1b358fbc498983418f1e985d5, type: 2}
-  - {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
-  - {fileID: 11400000, guid: c1a56838abf12204ba392c03fff0fd17, type: 2}
+  - {fileID: 11400000, guid: cbee4033df937104fb2fdfccd0157e72, type: 2}
+  - {fileID: 11400000, guid: d53ef16905223e5458ec5d63c2dca406, type: 2}
+  - {fileID: 11400000, guid: 62a9841fcbaf11d44a399bb684836fc2, type: 2}
+  - {fileID: 11400000, guid: f65ae7e3fd0895c469913c801be541cd, type: 2}
+  - {fileID: 11400000, guid: 36d9623f09be6b14ea35cfb20db02e94, type: 2}
   randomPool:
-  - mailData: {fileID: 11400000, guid: 2222ee504e8d3364e923e5b0d6ea9042, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 62a9841fcbaf11d44a399bb684836fc2, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 36d9623f09be6b14ea35cfb20db02e94, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 07663be0ab3adfb48b53df70cdd61db3, type: 2}
-    weight: 8
-  - mailData: {fileID: 11400000, guid: f65ae7e3fd0895c469913c801be541cd, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 6bba5e7fe205ea14999b3911f13f5138, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 3a41015106f7a854fa6009248d66f385, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 4c5fc4b1c0b38904dbae19334f034ecc, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: b75a3215be3ad04498693b23819c556c, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: cbee4033df937104fb2fdfccd0157e72, type: 2}
-    weight: 1
+  - mailData: {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: cd8c38e1b358fbc498983418f1e985d5, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
   - mailData: {fileID: 11400000, guid: 1a067a17d96fd4c4dbff0f1cb20b7996, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: d53ef16905223e5458ec5d63c2dca406, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 69942180efacb12469be66641f6b4ab2, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 7e3d298d58db69741beae3dcf48bd5d3, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 73ec46d165a29f24d81e674584ed778c, type: 2}
-    weight: 1
+    weight: 0
   - mailData: {fileID: 11400000, guid: 679d5d51b0acd1d4baf39270ce064b22, type: 2}
-    weight: 1
-  - mailData: {fileID: 11400000, guid: 71cee87cfbd490c4abf7a9a7a1a569cb, type: 2}
-    weight: 1
+    weight: 0
   - mailData: {fileID: 11400000, guid: 91f8c428713130e45b2579ce5b668b90, type: 2}
-    weight: 1
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 62a9841fcbaf11d44a399bb684836fc2, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 6bba5e7fe205ea14999b3911f13f5138, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: 07663be0ab3adfb48b53df70cdd61db3, type: 2}
+    weight: 0
