@@ -37,7 +37,7 @@ namespace MailSorting.UI
         [SerializeField] private GameObject feedbackPopup;
         [SerializeField] private TMP_Text feedbackText;
         [SerializeField] private TMP_Text scoreChangedText;
-        [SerializeField] private float feedbackDuration = 1.5f;
+        //[SerializeField] private float feedbackDuration = 1.5f;
 
         // State
         private Mail_Items_SO currentMail;
@@ -172,7 +172,11 @@ namespace MailSorting.UI
 
             // Notify subscribers (scoring system, mail spawner, etc.)
             OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
-            FindObjectOfType<MailSpawner>()?.OnMailSorted();
+            MailSpawner mailSpawner = Object.FindFirstObjectByType<MailSpawner>();
+            if (mailSpawner != null)
+            {
+                mailSpawner.OnMailSorted();
+            }
 
             if (isCorrect)
                 HUDManager.Instance.OnCorrectSort();
