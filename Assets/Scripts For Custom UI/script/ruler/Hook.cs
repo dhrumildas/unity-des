@@ -15,7 +15,6 @@ public class Hook : MonoBehaviour
 
     void LateUpdate()
     {
-        // Constantly lock the hook's Y-position to the housing's Y-position
         if (targetHousing != null)
         {
             Vector3 newPos = hookRect.position;
