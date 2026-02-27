@@ -1,15 +1,17 @@
 using UnityEngine;
-using UnityEngine.EventSystems; // Required for dragging UI!
+using UnityEngine.EventSystems;
 
-public class RulerTool : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class TapeMeasureDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("References")]
+    [Header("Tape References")]
     public RectTransform yellowTape;
-    public RectTransform tapeOrigin; // We will use the DragHandle for this
+    public RectTransform tapeOrigin; // The DragHandle itself
+
+    [Header("Hook Reference (Manual Sync)")]
+    public RectTransform metalHook;
 
     void Start()
     {
-        // Ensure the tape is fully retracted when the game starts
         if (yellowTape != null)
         {
             yellowTape.sizeDelta = new Vector2(0, yellowTape.sizeDelta.y);
@@ -25,8 +27,7 @@ public class RulerTool : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         SyncTapePosition();
 
-        // This converts the screen mouse position into the Yellow Tape's local UI space.
-        // Because the tape's pivot is on the far right (1, 0.5), pulling left gives us a negative X value.
+        // 1. Calculate the tape width
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             yellowTape,
             eventData.position,
@@ -34,23 +35,47 @@ public class RulerTool : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             out Vector2 localPoint
         );
 
-        // If we are dragging to the left, expand the width of the tape
         if (localPoint.x < 0)
         {
+            // Update the tape visually
             yellowTape.sizeDelta = new Vector2(Mathf.Abs(localPoint.x), yellowTape.sizeDelta.y);
+
+            // 2. MANUALLY move the hook's X position to match the mouse drag
+            if (metalHook != null)
+            {
+                RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                    yellowTape,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out Vector3 worldPoint
+                );
+
+                Vector3 hookPos = metalHook.position;
+                hookPos.x = worldPoint.x;
+                metalHook.position = hookPos;
+            }
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Snap the tape back into the housing when you let go
-        yellowTape.sizeDelta = new Vector2(0, yellowTape.sizeDelta.y);
+        // Snap the tape width back to 0
+        if (yellowTape != null)
+        {
+            yellowTape.sizeDelta = new Vector2(0, yellowTape.sizeDelta.y);
+        }
+
+        // Snap the hook's X position back to the origin
+        if (metalHook != null && tapeOrigin != null)
+        {
+            Vector3 resetPos = metalHook.position;
+            resetPos.x = tapeOrigin.position.x;
+            metalHook.position = resetPos;
+        }
     }
 
     private void SyncTapePosition()
     {
-        // Constantly lock the yellow tape to the handle's position in the world.
-        // This ensures they stay connected even if the drawer is scrolled up or down!
         if (yellowTape != null && tapeOrigin != null)
         {
             yellowTape.position = tapeOrigin.position;
