@@ -7,16 +7,23 @@ public class DayConfig : ScriptableObject
 {
     [Header("Day Settings")]
     public int dayNumber = 1;
-    public int totalMailCount = 10;
-    public float spawnInterval = 20f;
-    public float dayDuration = 200f;
+    public float dayDuration = 180f;
 
-    [Header("Guaranteed Mail")]
-    [Tooltip("These always spawn first, in this exact order")]
-    public List<Mail_Items_SO> guaranteedMail;
+    [Header("Tutorial (Day 1 only)")]
+    public Mail_Items_SO tutorialAccept;
+    public Mail_Items_SO tutorialReply;
+    public Mail_Items_SO tutorialReject;
+    public Mail_Items_SO tutorialReport;
+
+    [Header("Guaranteed — Characters")]
+    public Mail_Items_SO characterAMail;
+    public Mail_Items_SO characterBMail;
+    public Mail_Items_SO characterCMail;
+
+    [Header("Guaranteed — General")]
+    public Mail_Items_SO generalGuaranteedMail;
 
     [Header("Random Pool")]
-    [Tooltip("These fill the remaining slots randomly")]
     public List<MailPoolEntry> randomPool;
 }
 

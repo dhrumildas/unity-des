@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa4cacb71b944d94fbc9ca626f91c, type: 3}
+  m_Name: Day1Config
+  m_EditorClassIdentifier: Assembly-CSharp::DayConfig
+  dayNumber: 1
+  dayDuration: 60
+  tutorialAccept: {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
+  tutorialReply: {fileID: 11400000, guid: d53ef16905223e5458ec5d63c2dca406, type: 2}
+  tutorialReject: {fileID: 11400000, guid: 1a067a17d96fd4c4dbff0f1cb20b7996, type: 2}
+  tutorialReport: {fileID: 11400000, guid: 71cee87cfbd490c4abf7a9a7a1a569cb, type: 2}
+  characterAMail: {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
+  characterBMail: {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
+  characterCMail: {fileID: 11400000, guid: a5834ffe736ffcd479c1d48e69cf8a28, type: 2}
+  generalGuaranteedMail: {fileID: 0}
+  randomPool:
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0
+  - mailData: {fileID: 11400000, guid: f4f8a70ca8c75b74f875de09884fcdce, type: 2}
+    weight: 0

@@ -20,135 +20,124 @@ public class MailSpawner : MonoBehaviour
     [Header("Spawn Scatter")]
     public Vector2 scatter = new Vector2(1f, 0.5f);
 
-    [Header("References (assign later when inspection is ready)")]
+    [Header("References")]
     public Collider2D dropZoneCollider;
     public MailInspectionManager inspectionManager;
-
-    [Header("Inspection Tools")]
     public Collider2D rulerCollider;
     public Collider2D weighingscaleCollider;
     public GameObject inspectButton;
 
-    private List<Mail_Items_SO> spawnQueue = new List<Mail_Items_SO>();
-    private int spawnedCount = 0;
+    [Header("Day 1 Tutorial")]
+    public bool isTutorialDay = false;
+
+    private List<Mail_Items_SO> tutorialQueue = new List<Mail_Items_SO>();
+    private List<Mail_Items_SO> mainQueue = new List<Mail_Items_SO>();
+    private List<Mail_Items_SO> spawnedRandomToday = new List<Mail_Items_SO>();
+
     private bool waitingForSort = false;
+    private bool inTutorial = false;
 
     void Start()
     {
-        BuildSpawnQueue();
+        BuildQueues();
         StartCoroutine(SpawnLoop());
     }
 
-    //void BuildSpawnQueue()
-    //{
-    //    spawnQueue.Clear();
-
-    //    if (dayConfig.guaranteedMail != null)
-    //        foreach (var mail in dayConfig.guaranteedMail)
-    //            if (mail != null) spawnQueue.Add(mail);
-
-    //    int remaining = dayConfig.totalMailCount - spawnQueue.Count;
-    //    for (int i = 0; i < remaining; i++)
-    //    {
-    //        Mail_Items_SO picked = PickRandom();
-    //        if (picked != null) spawnQueue.Add(picked);
-    //    }
-
-    //    int guaranteedCount = dayConfig.guaranteedMail?.Count ?? 0;
-    //    ShuffleFrom(spawnQueue, guaranteedCount);
-
-    //    Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — {spawnQueue.Count} items queued");
-    //}
-
-
-
-    void BuildSpawnQueue()
+    void BuildQueues()
     {
-        spawnQueue.Clear();
-        if (dayConfig.guaranteedMail != null)
-            foreach (var mail in dayConfig.guaranteedMail)
-                if (mail != null) spawnQueue.Add(mail);
+        tutorialQueue.Clear();
+        mainQueue.Clear();
+        spawnedRandomToday.Clear();
 
-        int remaining = dayConfig.totalMailCount - spawnQueue.Count;
-        for (int i = 0; i < remaining; i++)
+        // tutorial queue (Day 1 only, fixed order)
+        if (isTutorialDay)
         {
-            Mail_Items_SO picked = PickRandom();
-            if (picked != null) spawnQueue.Add(picked);
+            if (dayConfig.tutorialAccept != null) tutorialQueue.Add(dayConfig.tutorialAccept);
+            if (dayConfig.tutorialReply != null) tutorialQueue.Add(dayConfig.tutorialReply);
+            if (dayConfig.tutorialReject != null) tutorialQueue.Add(dayConfig.tutorialReject);
+            if (dayConfig.tutorialReport != null) tutorialQueue.Add(dayConfig.tutorialReport);
         }
 
-        ShuffleComplete(spawnQueue);
-        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — {spawnQueue.Count} items queued");
-    }
+        // guaranteed mails
+        List<Mail_Items_SO> guaranteed = new List<Mail_Items_SO>();
+        if (dayConfig.characterAMail != null) guaranteed.Add(dayConfig.characterAMail);
+        if (dayConfig.characterBMail != null) guaranteed.Add(dayConfig.characterBMail);
+        if (dayConfig.characterCMail != null) guaranteed.Add(dayConfig.characterCMail);
+        if (dayConfig.generalGuaranteedMail != null) guaranteed.Add(dayConfig.generalGuaranteedMail);
 
-    private void ShuffleComplete(List<Mail_Items_SO> spawnQueue)
-    {
-        for(int i = spawnQueue.Count - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            
-            Mail_Items_SO temp = spawnQueue[i];
-            spawnQueue[i] = spawnQueue[j];
-            spawnQueue[j] = temp;
-        }
-    }
+        // track guaranteed for end of day
+        GameManager.Instance.spawnedGuaranteedToday.AddRange(guaranteed);
 
-    Mail_Items_SO PickRandom()
-    {
-        if (dayConfig.randomPool == null || dayConfig.randomPool.Count == 0) return null;
+        // random pool mails
+        List<Mail_Items_SO> random = new List<Mail_Items_SO>();
 
-        int totalWeight = 0;
+        // add carried over mails from previous day first
+        if (GameManager.Instance.carriedOverMail != null)
+            random.AddRange(GameManager.Instance.carriedOverMail);
+
+        // add this day's random pool
         foreach (var entry in dayConfig.randomPool)
-            totalWeight += entry.weight;
+            if (entry.mailData != null)
+                random.Add(entry.mailData);
 
-        int roll = Random.Range(0, totalWeight);
-        int cumulative = 0;
+        // shuffle guaranteed + random together into main queue
+        mainQueue.AddRange(guaranteed);
+        mainQueue.AddRange(random);
+        Shuffle(mainQueue);
 
-        foreach (var entry in dayConfig.randomPool)
-        {
-            cumulative += entry.weight;
-            if (roll < cumulative) return entry.mailData;
-        }
-
-        return dayConfig.randomPool[0].mailData;
-    }
-
-    void ShuffleFrom(List<Mail_Items_SO> list, int startIndex)
-    {
-        for (int i = list.Count - 1; i > startIndex; i--)
-        {
-            int j = Random.Range(startIndex, i + 1);
-            (list[i], list[j]) = (list[j], list[i]);
-        }
+        // track random mails for carry over check at end of day
+        spawnedRandomToday.AddRange(random);
+        Debug.Log($"[Spawner] spawnedRandomToday count: {spawnedRandomToday.Count}");
+        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — Tutorial: {tutorialQueue.Count}, Main: {mainQueue.Count}");
     }
 
     IEnumerator SpawnLoop()
     {
         yield return new WaitForSeconds(1f);
 
-        while (spawnedCount < spawnQueue.Count)
+        // tutorial first if Day 1
+        if (isTutorialDay)
+        {
+            inTutorial = true;
+            foreach (var mail in tutorialQueue)
+            {
+                waitingForSort = true;
+                SpawnMail(mail, isTutorial: true);
+                yield return new WaitUntil(() => waitingForSort == false);
+            }
+            inTutorial = false;
+            Debug.Log("[Spawner] Tutorial complete, starting main game.");
+        }
+
+        // main queue
+        foreach (var mail in mainQueue)
         {
             waitingForSort = true;
-            SpawnMail(spawnQueue[spawnedCount]);
-            spawnedCount++;
-
+            SpawnMail(mail, isTutorial: false);
             yield return new WaitUntil(() => waitingForSort == false);
         }
 
         Debug.Log("[Spawner] All mail delivered for today.");
+
+        // notify game manager of day end
+        GameManager.Instance.OnDayEnd(spawnedRandomToday);
+
         if (DayEndPanel.Instance != null)
             DayEndPanel.Instance.Show();
         else
             Debug.LogError("[Spawner] DayEndPanel.Instance is null!");
     }
+
     public void OnMailSorted()
     {
         waitingForSort = false;
     }
 
-    void SpawnMail(Mail_Items_SO data)
+    public bool IsInTutorial() => inTutorial;
+
+    void SpawnMail(Mail_Items_SO data, bool isTutorial)
     {
         bool isPackage = data.mailType == MailType.Package;
-
         Transform spawnArea = isPackage ? packageSpawnArea : letterSpawnArea;
         GameObject prefab = isPackage ? packagePrefab : letterPrefab;
 
@@ -170,6 +159,7 @@ public class MailSpawner : MonoBehaviour
         if (drag != null)
         {
             drag.mailData = data;
+            drag.isTutorialMail = isTutorial;
             drag.rulerCollider = rulerCollider;
             drag.weighingscaleCollider = weighingscaleCollider;
             drag.inspectButton = inspectButton;
@@ -181,4 +171,19 @@ public class MailSpawner : MonoBehaviour
         if (sr != null && data.mailSprite != null)
             sr.sprite = data.mailSprite;
     }
+
+    void Shuffle(List<Mail_Items_SO> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
+
+    public void NotifyDayEnd()
+    {
+        GameManager.Instance.OnDayEnd(spawnedRandomToday);
+    }
 }
+

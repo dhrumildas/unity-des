@@ -136,57 +136,68 @@ namespace MailSorting.UI
 
         private void ResolveAction(MailAction playerAction)
         {
+
             if (currentMail == null) return;
 
-            bool isCorrect = playerAction == currentMail.idealAction;
-            int scoreChange = isCorrect ? 10 : -5;
+            Debug.Log($"[Resolve] GameManager: {GameManager.Instance}");
+            Debug.Log($"[Resolve] HUDManager: {HUDManager.Instance}");
+            Debug.Log($"[Resolve] currentMail: {currentMail}");
+            Debug.Log($"[Resolve] currentMailObject: {currentMailObject}");
 
-            // Build feedback message
-            string message = "";
-            switch (playerAction)
+            // check if tutorial mail — no scoring for tutorial
+            DragCheck drag = currentMailObject.GetComponent<DragCheck>();
+            Debug.Log($"[Resolve] DragCheck: {drag}");
+            Debug.Log($"[Resolve] isTutorialMail: {(drag != null ? drag.isTutorialMail.ToString() : "drag is null")}");
+            bool isTutorial = drag != null && drag.isTutorialMail;
+
+            if (!isTutorial)
             {
-                case MailAction.Accept:
-                    message = "Mail sent to Aurora!";
-                    break;
-                case MailAction.Reply:
-                    message = "Reply sent to sender.";
-                    break;
-                case MailAction.Reject:
-                    message = "Mail rejected.";
-                    break;
-                case MailAction.Report:
-                    message = "Reported to Safety Department.";
-                    break;
+                // calculate points
+                int points = CalculatePoints(playerAction, currentMail.idealAction);
+
+                // update HUD score
+                HUDManager.Instance.OnMailSorted(playerAction, currentMail.idealAction);
+
+                // check if this is a character or guaranteed mail
+                DayConfig day = GameManager.Instance.CurrentDay;
+                bool isCharacterMail = currentMail == day.characterAMail ||
+                                       currentMail == day.characterBMail ||
+                                       currentMail == day.characterCMail ||
+                                       currentMail == day.generalGuaranteedMail;
+
+                if (isCharacterMail)
+                    GameManager.Instance.OnGuaranteedSorted(currentMail, points);
+                else
+                    GameManager.Instance.OnRandomSorted(currentMail);
+            }
+            else
+            {
+                Debug.Log("[Inspector] Tutorial mail sorted — no score");
             }
 
-            if (!isCorrect)
-            {
-                message += "\nIncorrect — should have been " + currentMail.idealAction + ".";
-            }
-
-            // Close inspection panels
-            CloseAllPanels();
-
-            // Show feedback
-            //ShowFeedback(message, scoreChange);
-
-            // Notify subscribers (scoring system, mail spawner, etc.)
-            OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
+            // notify subscribers and spawner
+            OnMailActioned?.Invoke(currentMail, playerAction, playerAction == currentMail.idealAction);
             FindObjectOfType<MailSpawner>()?.OnMailSorted();
 
-            if (isCorrect)
-                HUDManager.Instance.OnCorrectSort();
-            else
-                HUDManager.Instance.OnWrongSort();
-
-            // destroy the physical letter from the desk
+            // destroy the physical letter
             if (currentMailObject != null)
                 Destroy(currentMailObject);
 
             currentMailObject = null;
-            // Clear state
             currentMail = null;
             isInspecting = false;
+
+            // close inspection panels
+            CloseAllPanels();
+        }
+
+        int CalculatePoints(MailAction playerAction, MailAction correctAction)
+        {
+            if (playerAction == correctAction) return 10;
+            if (correctAction == MailAction.Reply && playerAction == MailAction.Accept) return 5;
+            if (correctAction == MailAction.Reject && playerAction == MailAction.Reply) return 5;
+            if (correctAction == MailAction.Report && playerAction == MailAction.Reject) return 5;
+            return 0;
         }
 
         // =====================================================================
