@@ -138,16 +138,9 @@ namespace MailSorting.UI
         {
 
             if (currentMail == null) return;
-
-            Debug.Log($"[Resolve] GameManager: {GameManager.Instance}");
-            Debug.Log($"[Resolve] HUDManager: {HUDManager.Instance}");
-            Debug.Log($"[Resolve] currentMail: {currentMail}");
-            Debug.Log($"[Resolve] currentMailObject: {currentMailObject}");
-
+                        
             // check if tutorial mail — no scoring for tutorial
             DragCheck drag = currentMailObject.GetComponent<DragCheck>();
-            Debug.Log($"[Resolve] DragCheck: {drag}");
-            Debug.Log($"[Resolve] isTutorialMail: {(drag != null ? drag.isTutorialMail.ToString() : "drag is null")}");
             bool isTutorial = drag != null && drag.isTutorialMail;
 
             if (!isTutorial)

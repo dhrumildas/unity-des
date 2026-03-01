@@ -58,20 +58,42 @@ public class GameManager : MonoBehaviour
     {
         carriedOverMail.Clear();
 
-        // find unsorted random mails and carry them over
+        // count how many times each mail was sorted
+        Dictionary<Mail_Items_SO, int> sortedCounts = new Dictionary<Mail_Items_SO, int>();
+        foreach (var mail in sortedToday)
+        {
+            if (sortedCounts.ContainsKey(mail))
+                sortedCounts[mail]++;
+            else
+                sortedCounts[mail] = 1;
+        }
+
+        // for each spawned random, carry over if not enough were sorted
+        Dictionary<Mail_Items_SO, int> spawnedCounts = new Dictionary<Mail_Items_SO, int>();
         foreach (var mail in allSpawnedRandom)
         {
-            if (!sortedToday.Contains(mail))
+            if (spawnedCounts.ContainsKey(mail))
+                spawnedCounts[mail]++;
+            else
+                spawnedCounts[mail] = 1;
+        }
+
+        foreach (var kvp in spawnedCounts)
+        {
+            Mail_Items_SO mail = kvp.Key;
+            int spawnedCount = kvp.Value;
+            int sortedCount = sortedCounts.ContainsKey(mail) ? sortedCounts[mail] : 0;
+            int unsortedCount = spawnedCount - sortedCount;
+
+            for (int i = 0; i < unsortedCount; i++)
             {
                 carriedOverMail.Add(mail);
-                Debug.Log($"[GM] Carrying over unsorted mail: {mail.mailID}");
+                Debug.Log($"[GM] Carrying over: {mail.mailID}");
             }
         }
 
-        // guaranteed mails not sorted = score 0 (already handled by not calling OnGuaranteedSorted)
         Debug.Log($"[GM] Day {currentDayIndex + 1} ended. {carriedOverMail.Count} mails carried over.");
 
-        // reset daily tracking
         spawnedGuaranteedToday.Clear();
         sortedToday.Clear();
     }
