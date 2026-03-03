@@ -15,6 +15,7 @@ public class DragCheck : MonoBehaviour
     public Collider2D rulerCollider;
     public Collider2D weighingscaleCollider;
     public GameObject inspectButton;
+    public bool isTutorialMail = false;
     //[SerializeField] private Collider2D rulerCollider;
     //[SerializeField] private Collider2D weighingscaleCollider;
     //[SerializeField] private GameObject inspectButton;

@@ -37,6 +37,7 @@ public class GameTimer : MonoBehaviour
         if (IsDayOver)
         {
             running = false;
+            FindObjectOfType<MailSpawner>()?.NotifyDayEnd();
             DayEndPanel.Instance.Show();
         }
 

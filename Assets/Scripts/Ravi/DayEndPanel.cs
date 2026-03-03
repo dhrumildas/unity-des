@@ -10,14 +10,16 @@ public class DayEndPanel : MonoBehaviour
     public GameObject panel;
     public TMP_Text congratsText;
     public TMP_Text dayScoreText;
+    public TMP_Text quotaText;
     public Button nextDayButton;
+    public Button gameOverButton;
 
     void Awake()
     {
         Instance = this;
         panel.SetActive(false);
-
         nextDayButton.onClick.AddListener(OnNextDayClicked);
+        gameOverButton.onClick.AddListener(OnGameOverClicked);
     }
 
     public void Show()
@@ -25,22 +27,36 @@ public class DayEndPanel : MonoBehaviour
         if (panel.activeSelf) return;
 
         int score = HUDManager.Instance.GetScore();
+        bool passing = HUDManager.Instance.IsPassing();
 
-        congratsText.text = "Great work today!\nAurora's mail is safe for another day.";
+        congratsText.text = passing
+            ? "Great work today!\nAurora's mail is safe."
+            : "Not good enough today.\nAurora's safety was compromised.";
+
         dayScoreText.text = $"Day Score: {score}";
+        quotaText.text = passing ? "PASS" : "FAIL";
+
+        // show correct button
+        nextDayButton.gameObject.SetActive(passing);
+        gameOverButton.gameObject.SetActive(!passing);
 
         panel.SetActive(true);
     }
 
     void OnNextDayClicked()
     {
-        // day 2 not implemented yet, just close for now
         panel.SetActive(false);
         Debug.Log("Day 2 not implemented yet!");
+    }
+
+    void OnGameOverClicked()
+    {
+        Debug.Log("Game Over screen not implemented yet!");
     }
 
     void OnDestroy()
     {
         nextDayButton.onClick.RemoveAllListeners();
+        gameOverButton.onClick.RemoveAllListeners();
     }
 }

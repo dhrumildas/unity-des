@@ -136,61 +136,61 @@ namespace MailSorting.UI
 
         private void ResolveAction(MailAction playerAction)
         {
+
             if (currentMail == null) return;
+                        
+            // check if tutorial mail — no scoring for tutorial
+            DragCheck drag = currentMailObject.GetComponent<DragCheck>();
+            bool isTutorial = drag != null && drag.isTutorialMail;
 
-            bool isCorrect = playerAction == currentMail.idealAction;
-            int scoreChange = isCorrect ? 10 : -5;
-
-            // Build feedback message
-            string message = "";
-            switch (playerAction)
+            if (!isTutorial)
             {
-                case MailAction.Accept:
-                    message = "Mail sent to Aurora!";
-                    break;
-                case MailAction.Reply:
-                    message = "Reply sent to sender.";
-                    break;
-                case MailAction.Reject:
-                    message = "Mail rejected.";
-                    break;
-                case MailAction.Report:
-                    message = "Reported to Safety Department.";
-                    break;
+                // calculate points
+                int points = CalculatePoints(playerAction, currentMail.idealAction);
+
+                // update HUD score
+                HUDManager.Instance.OnMailSorted(playerAction, currentMail.idealAction);
+
+                // check if this is a character or guaranteed mail
+                DayConfig day = GameManager.Instance.CurrentDay;
+                bool isCharacterMail = currentMail == day.characterAMail ||
+                                       currentMail == day.characterBMail ||
+                                       currentMail == day.characterCMail ||
+                                       currentMail == day.generalGuaranteedMail;
+
+                if (isCharacterMail)
+                    GameManager.Instance.OnGuaranteedSorted(currentMail, points);
+                else
+                    GameManager.Instance.OnRandomSorted(currentMail);
             }
-
-            if (!isCorrect)
-            {
-                message += "\nIncorrect — should have been " + currentMail.idealAction + ".";
-            }
-
-            // Close inspection panels
-            CloseAllPanels();
-
-            // Show feedback
-            //ShowFeedback(message, scoreChange);
-
-            // Notify subscribers (scoring system, mail spawner, etc.)
-            OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
-            MailSpawner mailSpawner = Object.FindFirstObjectByType<MailSpawner>();
-            if (mailSpawner != null)
-            {
-                mailSpawner.OnMailSorted();
-            }
-
-            if (isCorrect)
-                HUDManager.Instance.OnCorrectSort();
             else
-                HUDManager.Instance.OnWrongSort();
+            {
+                Debug.Log("[Inspector] Tutorial mail sorted — no score");
+            }
 
-            // destroy the physical letter from the desk
+            // notify subscribers and spawner
+            OnMailActioned?.Invoke(currentMail, playerAction, playerAction == currentMail.idealAction);
+            FindObjectOfType<MailSpawner>()?.OnMailSorted();
+
+            // destroy the physical letter
             if (currentMailObject != null)
                 Destroy(currentMailObject);
 
             currentMailObject = null;
-            // Clear state
             currentMail = null;
             isInspecting = false;
+
+            // close inspection panels
+            CloseAllPanels();
+        }
+
+        int CalculatePoints(MailAction playerAction, MailAction correctAction)
+        {
+            if (playerAction == correctAction) return 10;
+            if (correctAction == MailAction.Reply && playerAction == MailAction.Accept) return 5;
+            if (correctAction == MailAction.Reject && playerAction == MailAction.Reply) return 5;
+            if (correctAction == MailAction.Report && playerAction == MailAction.Reject) return 5;
+            return 0;
         }
 
         // =====================================================================
