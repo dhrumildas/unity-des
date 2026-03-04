@@ -15,7 +15,7 @@ MonoBehaviour:
   mailID: F01
   mailType: 0
   appearanceDay: 1
-  importance: 1
+  senderProfile: 2
   spawnType: 0
   senderName: Florian de Vries
   senderAddress: 23 Blumenstrasse

@@ -88,7 +88,7 @@ public class MailSpawner : MonoBehaviour
         // track random mails for carry over check at end of day
         spawnedRandomToday.AddRange(random);
         Debug.Log($"[Spawner] spawnedRandomToday count: {spawnedRandomToday.Count}");
-        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} ï¿½ Tutorial: {tutorialQueue.Count}, Main: {mainQueue.Count}");
+        Debug.Log($"[Spawner] Day {dayConfig.dayNumber} — Tutorial: {tutorialQueue.Count}, Main: {mainQueue.Count}");
     }
 
     IEnumerator SpawnLoop()

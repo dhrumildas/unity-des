@@ -10,7 +10,7 @@ public class NewDragCheck : MonoBehaviour
     private Vector3 ogPos;
     private Vector3 offset;
     private Camera mainCamera;
-
+    private SpriteRenderer sr;
     // We need to remember where the mail originally lived in the hierarchy
     private Transform originalParent;
 
@@ -23,12 +23,15 @@ public class NewDragCheck : MonoBehaviour
         mainCamera = Camera.main;
         ogPos = transform.position;
         originalParent = transform.parent; // Save its original home
-
+        BoxCollider2D bc = GetComponent<BoxCollider2D>();
+        sr = GetComponent<SpriteRenderer>();
         weighingScale = FindFirstObjectByType<WeighingScaleUI>();
         if (weighingScale != null)
         {
             scaleRectTransform = weighingScale.GetComponent<RectTransform>();
         }
+
+        bc.size = sr.bounds.size; // Ensure collider matches sprite size
     }
 
     private void OnMouseDown()
@@ -38,6 +41,11 @@ public class NewDragCheck : MonoBehaviour
 
         // Immediately detach the mail from the scale so it is free to drag
         transform.SetParent(originalParent, true);
+
+        if(sr != null)
+        {
+            sr.sortingOrder = 100; // Bring to front while dragging
+        }
 
         if (weighingScale != null)
         {
@@ -66,6 +74,11 @@ public class NewDragCheck : MonoBehaviour
             // Snap back and ensure it returns to its original hierarchy
             transform.SetParent(originalParent, true);
             transform.position = ogPos;
+
+            if(sr != null)
+            {
+                sr.sortingOrder = -1; // Reset sorting order when not dragging
+            }
         }
     }
 
