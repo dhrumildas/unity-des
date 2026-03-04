@@ -146,10 +146,10 @@ namespace MailSorting.UI
             if (!isTutorial)
             {
                 // calculate points
-                int points = CalculatePoints(playerAction, currentMail.idealAction);
+                //int points = CalculatePoints(playerAction, currentMail.idealAction);
 
-                // update HUD score
-                HUDManager.Instance.OnMailSorted(playerAction, currentMail.idealAction);
+                //// update HUD score
+                //HUDManager.Instance.OnMailSorted(playerAction, currentMail.idealAction);
 
                 // check if this is a character or guaranteed mail
                 DayConfig day = GameManager.Instance.CurrentDay;
@@ -158,10 +158,10 @@ namespace MailSorting.UI
                                        currentMail == day.characterCMail ||
                                        currentMail == day.generalGuaranteedMail;
 
-                if (isCharacterMail)
-                    GameManager.Instance.OnGuaranteedSorted(currentMail, points);
-                else
-                    GameManager.Instance.OnRandomSorted(currentMail);
+                //if (isCharacterMail)
+                //    GameManager.Instance.OnGuaranteedSorted(currentMail, points);
+                //else
+                //    GameManager.Instance.OnRandomSorted(currentMail);
             }
             else
             {
@@ -169,7 +169,7 @@ namespace MailSorting.UI
             }
 
             // notify subscribers and spawner
-            OnMailActioned?.Invoke(currentMail, playerAction, playerAction == currentMail.idealAction);
+            //OnMailActioned?.Invoke(currentMail, playerAction, playerAction == currentMail.idealAction);
             FindObjectOfType<MailSpawner>()?.OnMailSorted();
 
             // destroy the physical letter

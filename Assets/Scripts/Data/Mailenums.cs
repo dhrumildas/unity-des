@@ -76,4 +76,12 @@ namespace MailSorting.Data
         Inappropriate,
         Other
     }
+
+    public enum CharacterSender
+    {
+        Generic,
+        Katsuki,
+        Florian,
+        UnnamedStalker
+    }
 }
