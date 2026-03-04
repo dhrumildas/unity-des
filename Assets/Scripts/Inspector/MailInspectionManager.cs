@@ -41,6 +41,7 @@ namespace MailSorting.UI
 
         // State
         private Mail_Items_SO currentMail;
+        private GameObject currentMailObject;
         private bool isInspecting = false;
 
         // Events — other systems (scoring, spawner) can subscribe to these
@@ -65,7 +66,7 @@ namespace MailSorting.UI
             // Start everything hidden
             actionButtonsPanel.SetActive(false);
             reportPanel.SetActive(false);
-            feedbackPopup.SetActive(false);
+            //feedbackPopup.SetActive(false);
         }
 
         private void Update()
@@ -86,11 +87,12 @@ namespace MailSorting.UI
         /// <summary>
         /// Opens the appropriate inspection panel for the given mail item.
         /// </summary>
-        public void InspectMail(Mail_Items_SO mailData)
+        public void InspectMail(Mail_Items_SO mailData, GameObject mailObject)
         {
             if (mailData == null) return;
 
             currentMail = mailData;
+            currentMailObject = mailObject;
             isInspecting = true;
 
             if (mailData.mailType == MailType.Letter)
@@ -134,46 +136,61 @@ namespace MailSorting.UI
 
         private void ResolveAction(MailAction playerAction)
         {
+
             if (currentMail == null) return;
+                        
+            // check if tutorial mail — no scoring for tutorial
+            DragCheck drag = currentMailObject.GetComponent<DragCheck>();
+            bool isTutorial = drag != null && drag.isTutorialMail;
 
-            bool isCorrect = playerAction == currentMail.idealAction;
-            int scoreChange = isCorrect ? 10 : -5;
-
-            // Build feedback message
-            string message = "";
-            switch (playerAction)
+            if (!isTutorial)
             {
-                case MailAction.Accept:
-                    message = "Mail sent to Aurora!";
-                    break;
-                case MailAction.Reply:
-                    message = "Reply sent to sender.";
-                    break;
-                case MailAction.Reject:
-                    message = "Mail rejected.";
-                    break;
-                case MailAction.Report:
-                    message = "Reported to Safety Department.";
-                    break;
+                // calculate points
+                //int points = CalculatePoints(playerAction, currentMail.idealAction);
+
+                //// update HUD score
+                //HUDManager.Instance.OnMailSorted(playerAction, currentMail.idealAction);
+
+                // check if this is a character or guaranteed mail
+                DayConfig day = GameManager.Instance.CurrentDay;
+                bool isCharacterMail = currentMail == day.characterAMail ||
+                                       currentMail == day.characterBMail ||
+                                       currentMail == day.characterCMail ||
+                                       currentMail == day.generalGuaranteedMail;
+
+                //if (isCharacterMail)
+                //    GameManager.Instance.OnGuaranteedSorted(currentMail, points);
+                //else
+                //    GameManager.Instance.OnRandomSorted(currentMail);
+            }
+            else
+            {
+                Debug.Log("[Inspector] Tutorial mail sorted — no score");
             }
 
-            if (!isCorrect)
-            {
-                message += "\nIncorrect — should have been " + currentMail.idealAction + ".";
-            }
+            // notify subscribers and spawner
+            //OnMailActioned?.Invoke(currentMail, playerAction, playerAction == currentMail.idealAction);
+            FindObjectOfType<MailSpawner>()?.OnMailSorted();
 
-            // Close inspection panels
-            CloseAllPanels();
+            // destroy the physical letter
+            if (currentMailObject != null)
+                Destroy(currentMailObject);
 
-            // Show feedback
-            ShowFeedback(message, scoreChange);
-
-            // Notify subscribers (scoring system, mail spawner, etc.)
-            OnMailActioned?.Invoke(currentMail, playerAction, isCorrect);
-
-            // Clear state
+            currentMailObject = null;
             currentMail = null;
             isInspecting = false;
+
+            // close inspection panels
+            CloseAllPanels();
+        }
+
+        int CalculatePoints(MailAction playerAction, MailAction correctAction)
+        {
+            if (playerAction == correctAction) return 10;
+            if (correctAction == MailAction.Reply && playerAction == MailAction.Accept) return 5;
+            if (correctAction == MailAction.Reject && playerAction == MailAction.Reply) return 5;
+            if (correctAction == MailAction.Report && playerAction == MailAction.Reject) return 5;
+            return 0;
         }
 
         // =====================================================================
@@ -226,32 +243,32 @@ namespace MailSorting.UI
         // FEEDBACK
         // =====================================================================
 
-        private void ShowFeedback(string message, int scoreChange)
-        {
-            feedbackText.text = message;
+        //private void ShowFeedback(string message, int scoreChange)
+        //{
+        //    feedbackText.text = message;
 
-            if (scoreChange >= 0)
-            {
-                scoreChangedText.text = "+" + scoreChange + " BP";
-                scoreChangedText.color = Color.green;
-            }
-            else
-            {
-                scoreChangedText.text = scoreChange + " BP";
-                scoreChangedText.color = Color.red;
-            }
+        //    if (scoreChange >= 0)
+        //    {
+        //        scoreChangedText.text = "+" + scoreChange + " BP";
+        //        scoreChangedText.color = Color.green;
+        //    }
+        //    else
+        //    {
+        //        scoreChangedText.text = scoreChange + " BP";
+        //        scoreChangedText.color = Color.red;
+        //    }
 
-            feedbackPopup.SetActive(true);
+        //    feedbackPopup.SetActive(true);
 
-            // Auto-dismiss after duration
-            CancelInvoke(nameof(HideFeedback));
-            Invoke(nameof(HideFeedback), feedbackDuration);
-        }
+        //    // Auto-dismiss after duration
+        //    CancelInvoke(nameof(HideFeedback));
+        //    Invoke(nameof(HideFeedback), feedbackDuration);
+        //}
 
-        private void HideFeedback()
-        {
-            feedbackPopup.SetActive(false);
-        }
+        //private void HideFeedback()
+        //{
+        //    feedbackPopup.SetActive(false);
+        //}
 
         // =====================================================================
         // PANEL MANAGEMENT

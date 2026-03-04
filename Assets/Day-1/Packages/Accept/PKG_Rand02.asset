@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PKG_Rand02
   m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
   mailID: R13
-  mailType: 0
+  mailType: 1
   appearanceDay: 1
   importance: 0
   spawnType: 1
@@ -35,10 +35,10 @@ MonoBehaviour:
   weight: 500
   dimensions: {x: 25, y: 20}
   packageSideSprites:
-  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
-  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
-  - {fileID: -3610274176984403535, guid: 8f535e21070201940a188751e5489c38, type: 3}
-  - {fileID: 3520532602161927012, guid: e7498c9ce54d6584c9d31e522e5bcff7, type: 3}
+  - {fileID: -6550324769568536940, guid: 2315e38b391d89346af090b0c6bc5b9d, type: 3}
+  - {fileID: -7665182691485334871, guid: 41c09801fa347e04eb9fe1b7e120ec87, type: 3}
+  - {fileID: -6550324769568536940, guid: 2315e38b391d89346af090b0c6bc5b9d, type: 3}
+  - {fileID: -7665182691485334871, guid: 41c09801fa347e04eb9fe1b7e120ec87, type: 3}
   itemInsideDescription: Plush teddy bear
   itemInsideSprite: {fileID: 6532836701777844110, guid: 9e8698712b6e2c642988a98b1dea9ee6, type: 3}
   customsFormDescription: Stuffed toy
@@ -47,6 +47,8 @@ MonoBehaviour:
   containsMetal: 0
   containsSubstance: 0
   substanceType: 0
+  containsOffence: 0
+  offenceType: 0
   giftValue: 15
   mailSprite: {fileID: 0}
   contentSprite: {fileID: 0}

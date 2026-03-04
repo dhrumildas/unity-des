@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 159f2d3e4d4139942a1f76a55c298354, type: 3}
+  m_Name: Day_1
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.DayConfig_SO
+  dayNumber: 1
+  dailyMailQuota: 15
+  passScoreThreshold: 100
+  Mail_A: {fileID: 0}
+  Mail_B: {fileID: 0}
+  Mail_C: {fileID: 0}
+  Mail_D: {fileID: 0}
+  checkContraband: 0
+  checkAddress: 0
+  checkSignature: 0
+  checkSentences: 0
+  maxSentencesAllowed: 4
+  checkDimensions: 0
+  maxDimensions: {x: 30, y: 20}
+  checkWeight: 0
+  maxWeightLimit: 1000
+  checkGiftValue: 0
+  maxGiftValue: 50
+  checkQuestion: 0
+  ExactlyOneQuestion: 0
