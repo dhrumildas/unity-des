@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using MailSorting.Data;
 
 public class HUDManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class HUDManager : MonoBehaviour
     public TMP_Text scoreText;
 
     [Header("Quota Settings")]
-    public int passThreshold = 50; // Changable in Inspector
+    public int passThreshold = 50;
 
     private int score = 0;
     private int currentDay = 1;
@@ -29,8 +30,10 @@ public class HUDManager : MonoBehaviour
         GameTimer.Instance.StartTimer();
     }
 
-    public void OnMailSorted(MailSorting.Data.MailAction playerAction, MailSorting.Data.MailAction correctAction)
+    public void OnMailSorted(MailAction playerAction, MailAction correctAction, bool isTutorial)
     {
+        if (isTutorial) return; // no scoring for tutorial
+
         totalMails++;
 
         int points = CalculateScore(playerAction, correctAction);
@@ -40,14 +43,14 @@ public class HUDManager : MonoBehaviour
             comboCount++;
             if (comboCount > 1)
             {
-                int comboBonus = (comboCount - 1) * 2; // +2 per consecutive correct
+                int comboBonus = (comboCount - 1) * 2;
                 points += comboBonus;
                 Debug.Log($"[HUD] Combo x{comboCount}! +{comboBonus} bonus");
             }
         }
         else
         {
-            comboCount = 0; // reset combo on partial or wrong
+            comboCount = 0;
             if (points == 0) mistakes++;
         }
 
@@ -57,17 +60,12 @@ public class HUDManager : MonoBehaviour
         Debug.Log($"[HUD] Sorted — Action: {playerAction}, Correct: {correctAction}, Points: {points}, Score: {score}");
     }
 
-    int CalculateScore(MailSorting.Data.MailAction playerAction, MailSorting.Data.MailAction correctAction)
+    int CalculateScore(MailAction playerAction, MailAction correctAction)
     {
-        // correct sort
         if (playerAction == correctAction) return 10;
-
-        // partial sorts
-        if (correctAction == MailSorting.Data.MailAction.Reply && playerAction == MailSorting.Data.MailAction.Accept) return 5;
-        if (correctAction == MailSorting.Data.MailAction.Reject && playerAction == MailSorting.Data.MailAction.Reply) return 5;
-        if (correctAction == MailSorting.Data.MailAction.Report && playerAction == MailSorting.Data.MailAction.Reject) return 5;
-
-        // wrong sort
+        if (correctAction == MailAction.Reply && playerAction == MailAction.Accept) return 5;
+        if (correctAction == MailAction.Reject && playerAction == MailAction.Reply) return 5;
+        if (correctAction == MailAction.Report && playerAction == MailAction.Reject) return 5;
         return 0;
     }
 

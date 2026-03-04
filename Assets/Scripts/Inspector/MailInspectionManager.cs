@@ -134,7 +134,7 @@ namespace MailSorting.UI
             ResolveAction(playerAction);
         }
 
-        private void ResolveAction(MailAction playerAction)
+        /*private void ResolveAction(MailAction playerAction)
         {
 
             if (currentMail == null) return;
@@ -191,7 +191,7 @@ namespace MailSorting.UI
             if (correctAction == MailAction.Reject && playerAction == MailAction.Reply) return 5;
             if (correctAction == MailAction.Report && playerAction == MailAction.Reject) return 5;
             return 0;
-        }
+        }*/
 
         // =====================================================================
         // REPORT PANEL
