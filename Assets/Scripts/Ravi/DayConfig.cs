@@ -10,6 +10,7 @@ public class DayConfig : ScriptableObject
     public float dayDuration = 180f;
 
     [Header("Tutorial (Day 1 only)")]
+    public bool isTutorialDay = false;
     public Mail_Items_SO tutorialAccept;
     public Mail_Items_SO tutorialReply;
     public Mail_Items_SO tutorialReject;

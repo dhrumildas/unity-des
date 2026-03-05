@@ -1,122 +1,174 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using MailSorting.Data;
-using MailSorting.UI;
 
 namespace MailSorting.Gameplay
 {
     public class MailSpawner : MonoBehaviour
     {
-        [Header("Mail Pools (Day 1)")]
-        [Tooltip("Guaranteed story letters (e.g., Katsuki, Florian)")]
-        public Mail_Items_SO[] guaranteedMail;
-        [Tooltip("Generic filler mail (randomly shuffled)")]
-        public Mail_Items_SO[] randomPool;
+        [Header("Day Config")]
+        public DayConfig dayConfig;
 
-        [Header("Scene References")]
+        [Header("Prefabs")]
+        public GameObject letterPrefab;
+        public GameObject packagePrefab;
+
+        [Header("Spawn Points")]
         public Transform letterSpawnPoint;
         public Transform packageSpawnPoint;
-        public GameObject draggableMailPrefab;
-        public MailInspectionManager inspectionManager;
 
-        private Queue<Mail_Items_SO> mailQueue = new Queue<Mail_Items_SO>();
+        private List<Mail_Items_SO> mainQueue = new List<Mail_Items_SO>();
         private GameObject currentMailObject;
+        private bool waitingForSort = false;
 
         void Start()
         {
             BuildQueue();
+            StartCoroutine(SpawnLoop());
 
-            // Listen for when the player makes a decision so we know to spawn the next one
-            if (inspectionManager != null)
-            {
-                inspectionManager.OnMailActioned += HandleMailActioned;
-            }
-
-            SpawnNextMail();
+            if (GameTimer.Instance != null)
+                GameTimer.Instance.StartTimer();
         }
 
         private void BuildQueue()
         {
-            // 1. Shuffle the random pool into a list
-            List<Mail_Items_SO> randomList = new List<Mail_Items_SO>(randomPool);
-            for (int i = 0; i < randomList.Count; i++)
-            {
-                Mail_Items_SO temp = randomList[i];
-                int randomIndex = Random.Range(i, randomList.Count);
-                randomList[i] = randomList[randomIndex];
-                randomList[randomIndex] = temp;
-            }
+            mainQueue.Clear();
 
-            // 2. Interleave the guaranteed story mail so they don't all spawn back-to-back
-            int guaranteedIndex = 0;
-            for (int i = 0; i < randomList.Count; i++)
+            if (dayConfig == null)
             {
-                // Inject a story letter every 3rd piece of mail
-                if (i % 3 == 0 && guaranteedIndex < guaranteedMail.Length)
-                {
-                    mailQueue.Enqueue(guaranteedMail[guaranteedIndex]);
-                    guaranteedIndex++;
-                }
-                mailQueue.Enqueue(randomList[i]);
-            }
-
-            // 3. Add any leftover guaranteed mail to the end just in case
-            while (guaranteedIndex < guaranteedMail.Length)
-            {
-                mailQueue.Enqueue(guaranteedMail[guaranteedIndex]);
-                guaranteedIndex++;
-            }
-        }
-
-        private void SpawnNextMail()
-        {
-            if (mailQueue.Count == 0)
-            {
-                Debug.Log("Shift over! The mail queue is empty.");
+                Debug.LogError("[MailSpawner] No DayConfig assigned!");
                 return;
             }
 
-            Mail_Items_SO nextMail = mailQueue.Dequeue();
+            Debug.Log($"[MailSpawner] randomPool entries in DayConfig: {dayConfig.randomPool.Count}");
 
-            // Letters spawn on the right, packages on the left
-            Transform spawnPos = (nextMail.mailType == MailType.Letter) ? letterSpawnPoint : packageSpawnPoint;
-
-            currentMailObject = Instantiate(draggableMailPrefab, spawnPos.position, Quaternion.identity);
-
-            // Pass the SO data to the drag script so the inspection zone can read it
-            DragCheck dragComponent = currentMailObject.GetComponent<DragCheck>();
-            if (dragComponent != null)
+            // Build weighted random pool
+            List<Mail_Items_SO> randomPool = new List<Mail_Items_SO>();
+            foreach (var entry in dayConfig.randomPool)
             {
-                dragComponent.mailData = nextMail;
+                Debug.Log($"Entry: {entry?.mailData?.mailID} | weight: {entry?.weight}");
+                if (entry.mailData == null) continue;
+                int w = entry.weight <= 0 ? 1 : entry.weight;
+                for (int i = 0; i < w; i++)
+                    randomPool.Add(entry.mailData);
             }
 
-            // Set the correct visual sprite on the desk
-            SpriteRenderer sr = currentMailObject.GetComponent<SpriteRenderer>();
-            if (sr != null && nextMail.mailSprite != null)
+            Debug.Log($"[MailSpawner] Random pool built: {randomPool.Count} entries");
+
+            // Shuffle random pool
+            for (int i = randomPool.Count - 1; i > 0; i--)
             {
-                sr.sprite = nextMail.mailSprite;
+                int j = Random.Range(0, i + 1);
+                (randomPool[i], randomPool[j]) = (randomPool[j], randomPool[i]);
             }
+
+            // Guaranteed mails
+            List<Mail_Items_SO> guaranteed = new List<Mail_Items_SO>();
+            if (dayConfig.characterAMail != null) guaranteed.Add(dayConfig.characterAMail);
+            if (dayConfig.characterBMail != null) guaranteed.Add(dayConfig.characterBMail);
+            if (dayConfig.characterCMail != null) guaranteed.Add(dayConfig.characterCMail);
+            if (dayConfig.generalGuaranteedMail != null) guaranteed.Add(dayConfig.generalGuaranteedMail);
+
+            // Interleave guaranteed every 3rd slot
+            int gIdx = 0;
+            for (int i = 0; i < randomPool.Count; i++)
+            {
+                if (i % 3 == 0 && gIdx < guaranteed.Count)
+                    mainQueue.Add(guaranteed[gIdx++]);
+                mainQueue.Add(randomPool[i]);
+            }
+            while (gIdx < guaranteed.Count)
+                mainQueue.Add(guaranteed[gIdx++]);
+
+            Debug.Log($"[MailSpawner] Day {dayConfig.dayNumber} — {mainQueue.Count} mails queued.");
         }
 
-        private void HandleMailActioned(Mail_Items_SO mail, MailAction action, bool isCorrect)
+        private IEnumerator SpawnLoop()
         {
-            // The player made a choice! Destroy the mail on the desk.
+            // Tutorial first on Day 1
+            if (dayConfig.isTutorialDay)
+            {
+                List<Mail_Items_SO> tutorial = new List<Mail_Items_SO>();
+                if (dayConfig.tutorialAccept != null) tutorial.Add(dayConfig.tutorialAccept);
+                if (dayConfig.tutorialReply != null) tutorial.Add(dayConfig.tutorialReply);
+                if (dayConfig.tutorialReject != null) tutorial.Add(dayConfig.tutorialReject);
+                if (dayConfig.tutorialReport != null) tutorial.Add(dayConfig.tutorialReport);
+
+                foreach (var mail in tutorial)
+                {
+                    Debug.Log($"[MailSpawner] Tutorial: {mail.mailID}");
+                    waitingForSort = true;
+                    SpawnMail(mail);
+                    yield return new WaitUntil(() => !waitingForSort);
+                }
+                Debug.Log("[MailSpawner] Tutorial complete.");
+            }
+
+            // Main queue
+            Debug.Log($"[MailSpawner] Main queue count: {mainQueue.Count}");
+            foreach (var mail in mainQueue)
+            {
+                Debug.Log($"[MailSpawner] Spawning: {mail.mailID}");
+                waitingForSort = true;
+                SpawnMail(mail);
+                Debug.Log($"[MailSpawner] Waiting for sort...");
+                yield return new WaitUntil(() => !waitingForSort);
+                Debug.Log($"[MailSpawner] Sorted! Moving to next.");
+            }
+
+            Debug.Log("[MailSpawner] All mail delivered for today.");
+        }
+
+        private void SpawnMail(Mail_Items_SO data)
+        {
+            bool isPackage = data.mailType == MailType.Package;
+            Transform spawnPoint = isPackage ? packageSpawnPoint : letterSpawnPoint;
+            GameObject prefab = isPackage ? packagePrefab : letterPrefab;
+
+            if (spawnPoint == null || prefab == null)
+            {
+                Debug.LogWarning($"[MailSpawner] Missing spawn point or prefab for {data.mailID} — skipping.");
+                waitingForSort = false;
+                return;
+            }
+
+            currentMailObject = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+            currentMailObject.transform.SetParent(letterSpawnPoint, false);
+
+            // Pass data to drag component
+            UI_DragCheck drag = currentMailObject.GetComponent<UI_DragCheck>();
+            if (drag != null)
+                drag.mailData = data;
+
+            // Set envelope sprite
+            Image img = currentMailObject.GetComponent<Image>();
+            if (img != null && data.mailSprite != null)
+                img.sprite = data.mailSprite;
+
+            // Initialise envelope
+            EnvelopeObject envelope = currentMailObject.GetComponent<EnvelopeObject>();
+            if (envelope != null)
+                envelope.Initialise(data);
+
+            // Tell action buttons
+            if (ActionButtonController.Instance != null)
+                ActionButtonController.Instance.SetCurrentMail(data);
+        }
+
+        public void ProcessNextMail()
+        {
             if (currentMailObject != null)
             {
+                EnvelopeObject envelope = currentMailObject.GetComponent<EnvelopeObject>();
+                if (envelope != null)
+                    envelope.DestroyLetter();
+
                 Destroy(currentMailObject);
             }
 
-            // Wait 1 second before spawning the next one so the player has time to read the feedback popup
-            Invoke(nameof(SpawnNextMail), 1.0f);
-        }
-
-        private void OnDestroy()
-        {
-            // Always un-subscribe from events to prevent memory leaks
-            if (inspectionManager != null)
-            {
-                inspectionManager.OnMailActioned -= HandleMailActioned;
-            }
+            waitingForSort = false;
         }
     }
 }

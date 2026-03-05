@@ -1,62 +1,64 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
 public class DayEndPanel : MonoBehaviour
 {
     public static DayEndPanel Instance;
 
-    [Header("UI References")]
-    public GameObject panel;
-    public TMP_Text congratsText;
-    public TMP_Text dayScoreText;
-    public TMP_Text quotaText;
-    public Button nextDayButton;
+    [Header("Panel")]
+    public GameObject panelRoot;
+
+    [Header("Text Fields")]
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI quotaText;
+    public TextMeshProUGUI resultText;
+
+    [Header("Buttons")]
+    public Button continueButton;
     public Button gameOverButton;
+
+    [Header("Settings")]
+    public int dailyQuota = 20;
 
     void Awake()
     {
-        Instance = this;
-        panel.SetActive(false);
-        nextDayButton.onClick.AddListener(OnNextDayClicked);
-        gameOverButton.onClick.AddListener(OnGameOverClicked);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        panelRoot.SetActive(false);
     }
 
     public void Show()
     {
-        if (panel.activeSelf) return;
+        panelRoot.SetActive(true);
 
-        int score = HUDManager.Instance.GetScore();
-        bool passing = HUDManager.Instance.IsPassing();
+        int score = ScoreManager.Instance.GetTotalScore();
+        bool passed = score >= dailyQuota;
 
-        congratsText.text = passing
-            ? "Great work today!\nAurora's mail is safe."
-            : "Not good enough today.\nAurora's safety was compromised.";
+        scoreText.text = $"Score: {score}";
+        quotaText.text = $"Quota: {dailyQuota} — {(passed ? "PASSED" : "FAILED")}";
+        resultText.text = passed
+            ? "Good work. Aurora's mail is sorted."
+            : "You didn't meet today's quota.";
 
-        dayScoreText.text = $"Day Score: {score}";
-        quotaText.text = passing ? "PASS" : "FAIL";
+        continueButton.gameObject.SetActive(passed);
+        gameOverButton.gameObject.SetActive(!passed);
 
-        // show correct button
-        nextDayButton.gameObject.SetActive(passing);
-        gameOverButton.gameObject.SetActive(!passing);
-
-        panel.SetActive(true);
+        if (GameTimer.Instance != null)
+            GameTimer.Instance.enabled = false;
     }
 
-    void OnNextDayClicked()
+    public void OnContinueClicked()
     {
-        panel.SetActive(false);
-        Debug.Log("Day 2 not implemented yet!");
+        int score = ScoreManager.Instance.GetTotalScore();
+        GameManager.Instance.OnDayComplete(score);
+        ScoreManager.Instance.ResetDay();
+        GameManager.Instance.LoadNextDay();
     }
 
-    void OnGameOverClicked()
+    public void OnGameOverClicked()
     {
-        Debug.Log("Game Over screen not implemented yet!");
-    }
-
-    void OnDestroy()
-    {
-        nextDayButton.onClick.RemoveAllListeners();
-        gameOverButton.onClick.RemoveAllListeners();
+        GameManager.Instance.TriggerGameOver();
     }
 }

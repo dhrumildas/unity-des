@@ -7,11 +7,11 @@ namespace MailSorting.Gameplay
 {
     public class NarrativeTracker : MonoBehaviour
     {
-        public NarrativeTracker Instance;
+        public static NarrativeTracker Instance;
 
         public class CharacterRecord
         {
-            public int accpeted;
+            public int accepted;
             public int replied;
             public int rejected;
             public int reported;
@@ -51,7 +51,7 @@ namespace MailSorting.Gameplay
             switch (action)
             {
                 case MailAction.Accept:
-                    ledger[sender].accpeted++;
+                    ledger[sender].accepted++;
                     break;
                 case MailAction.Reject:
                     ledger[sender].rejected++;
@@ -64,7 +64,7 @@ namespace MailSorting.Gameplay
                     break;
             }
 
-            Debug.Log($"[NarrativeTracker] Logged {action} for {sender}. (Total Accepts so far: {ledger[sender].accpeted}, Total Replies: {ledger[sender].replied}, Total Rejects: {ledger[sender].rejected}, Total Reports: {ledger[sender].reported})");
+            Debug.Log($"[NarrativeTracker] Logged {action} for {sender}. (Total Accepts so far: {ledger[sender].accepted}, Total Replies: {ledger[sender].replied}, Total Rejects: {ledger[sender].rejected}, Total Reports: {ledger[sender].reported})");
         }
     }
 }
