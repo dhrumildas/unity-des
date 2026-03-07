@@ -16,8 +16,9 @@ namespace MailSorting.Data
         [Range(1, 7)]
         public int appearanceDay = 1;
 
-        [Tooltip("Narrative importance of this mail")]
-        public NarrativeImportance importance = NarrativeImportance.Generic;
+        [Header("Narrative Tracking")]
+        [Tooltip("Who sent this? Used for triggering specific endings.")]
+        public CharacterSender senderProfile = CharacterSender.Generic;
 
         [Tooltip("Guaranteed story spawn or random pool filler")]
         public MailSpawnType spawnType = MailSpawnType.Random;
@@ -33,8 +34,12 @@ namespace MailSorting.Data
         public string fanProfileID;
 
         [Header("Letter Content")]
+        [TextArea(4, 10)]
+        [Tooltip("How the sender addressed AVA(shown at the mail - cover sprite when it is spawned BEFORE opening it")]
+        public string companyAddress;
+
         [Tooltip("How the sender addressed Aurora (displayed text the player reads)")]
-        public string addressedName;
+        public string howAuroraAddressed;
 
         [Tooltip("Does the addressing pass the rule check?")]
         public bool addressedCorrectly = true;
@@ -55,6 +60,9 @@ namespace MailSorting.Data
 
         [Tooltip("Does the letter contain a question?")]
         public bool containsQuestion = false;
+        [Tooltip("How many questions are in this letter?")]
+        [Range(0, 10)]
+        public int questionCount = 0;
 
         [Header("Letter Content — Images")]
         [Tooltip("Image displayed within the letter body (inline alongside text, or full-page if letterContent is empty)")]
@@ -141,37 +149,37 @@ namespace MailSorting.Data
         public string replyTextOverride;
 
 
-        [Header("Rule Evaluation")]
-        [Tooltip("The correct action for this mail item — set manually")]
-        public MailAction idealAction = MailAction.Accept;
+        //[Header("Rule Evaluation")]
+        //[Tooltip("The correct action for this mail item — set manually")]
+        //public MailAction idealAction = MailAction.Accept;
 
-        [Tooltip("List of rule IDs this mail violates e.g. ADDR_WRONG, SIGN_WRONG, SENTENCE_OVER, CONTRABAND, SUBSTANCE, SUSPICIOUS_OFFENCE")]
-        public string[] brokenRuleIDs;
+        //[Tooltip("List of rule IDs this mail violates e.g. ADDR_WRONG, SIGN_WRONG, SENTENCE_OVER, CONTRABAND, SUBSTANCE, SUSPICIOUS_OFFENCE")]
+        //public string[] brokenRuleIDs;
 
-        public bool ValidateIdealAction()
-        {
-            return idealAction == ComputeIdealAction();
-        }
+        //public bool ValidateIdealAction()
+        //{
+        //    return idealAction == ComputeIdealAction();
+        //}
 
-        public MailAction ComputeIdealAction()
-        {
-            if (containsContraband) return MailAction.Report;
-            if (containsSubstance) return MailAction.Report;
-            if (containsOffence) return MailAction.Report;
+        //public MailAction ComputeIdealAction()
+        //{
+        //    if (containsContraband) return MailAction.Report;
+        //    if (containsSubstance) return MailAction.Report;
+        //    if (containsOffence) return MailAction.Report;
 
-            int violations = 0;
+        //    int violations = 0;
 
-            if (!addressedCorrectly) violations++;
-            if (!signedCorrectly) violations++;
-            if (sentenceCount > 4) violations++;
+        //    if (!addressedCorrectly) violations++;
+        //    if (!signedCorrectly) violations++;
+        //    if (sentenceCount > 4) violations++;
 
-            if (violations == 0)
-                return MailAction.Accept;
-            else if (violations == 1)
-                return MailAction.Reply;
-            else
-                return MailAction.Reject;
-        }
+        //    if (violations == 0)
+        //        return MailAction.Accept;
+        //    else if (violations == 1)
+        //        return MailAction.Reply;
+        //    else
+        //        return MailAction.Reject;
+        //}
 
         public string GetReplyText()
         {
@@ -182,25 +190,25 @@ namespace MailSorting.Data
             return null;
         }
 
-        public string GetDebugInfo()
-        {
-            string validation = ValidateIdealAction() ? "VALID" : "MISMATCH — computed: " + ComputeIdealAction();
-            string contentMode = string.IsNullOrEmpty(letterContent)
-                ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
-                : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
+        //public string GetDebugInfo()
+        //{
+        //    //string validation = ValidateIdealAction() ? "VALID" : "MISMATCH — computed: " + ComputeIdealAction();
+        //    string contentMode = string.IsNullOrEmpty(letterContent)
+        //        ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
+        //        : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
 
-            return $"[{mailID}] {mailType} from {senderName} [{spawnType}]\n" +
-                   $"Addressed: \"{addressedName}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
-                   $"Signed: \"{signatureName}\" ({(signedCorrectly ? "OK" : "WRONG")})\n" +
-                   $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
-                   $"Content Mode: {contentMode}, Encrypted: {isEncrypted}\n" +
-                   $"Contraband: {containsContraband} ({contrabandType})\n" +
-                   $"Substance: {containsSubstance} ({substanceType})\n" +
-                   $"Weight: {weight}g, Dims: {dimensions}cm\n" +
-                   $"Country: {countryOfOrigin}, Postage: {postageType}\n" +
-                   $"Reply: {replyCategory}\n" +
-                   $"Ideal Action: {idealAction} [{validation}]\n" +
-                   $"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
-        }
+        //    return $"[{mailID}] {mailType} from {senderName} [{spawnType}]\n" +
+        //           $"Addressed: \"{addressedName}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Signed: \"{signatureName}\" ({(signedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
+        //           $"Content Mode: {contentMode}, Encrypted: {isEncrypted}\n" +
+        //           $"Contraband: {containsContraband} ({contrabandType})\n" +
+        //           $"Substance: {containsSubstance} ({substanceType})\n" +
+        //           $"Weight: {weight}g, Dims: {dimensions}cm\n" +
+        //           $"Country: {countryOfOrigin}, Postage: {postageType}\n]";
+        //           //$"Reply: {replyCategory}\n" +
+        //           //$"Ideal Action: {idealAction} [{validation}]\n" +
+        //           //$"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
+        //}
     }
 }

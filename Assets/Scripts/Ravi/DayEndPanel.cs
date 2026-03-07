@@ -1,46 +1,64 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
 public class DayEndPanel : MonoBehaviour
 {
     public static DayEndPanel Instance;
 
-    [Header("UI References")]
-    public GameObject panel;
-    public TMP_Text congratsText;
-    public TMP_Text dayScoreText;
-    public Button nextDayButton;
+    [Header("Panel")]
+    public GameObject panelRoot;
+
+    [Header("Text Fields")]
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI quotaText;
+    public TextMeshProUGUI resultText;
+
+    [Header("Buttons")]
+    public Button continueButton;
+    public Button gameOverButton;
+
+    [Header("Settings")]
+    public int dailyQuota = 20;
 
     void Awake()
     {
-        Instance = this;
-        panel.SetActive(false);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
-        nextDayButton.onClick.AddListener(OnNextDayClicked);
+        panelRoot.SetActive(false);
     }
 
     public void Show()
     {
-        if (panel.activeSelf) return;
+        panelRoot.SetActive(true);
 
-        int score = HUDManager.Instance.GetScore();
+        int score = ScoreManager.Instance.GetTotalScore();
+        bool passed = score >= dailyQuota;
 
-        congratsText.text = "Great work today!\nAurora's mail is safe for another day.";
-        dayScoreText.text = $"Day Score: {score}";
+        scoreText.text = $"Score: {score}";
+        quotaText.text = $"Quota: {dailyQuota} — {(passed ? "PASSED" : "FAILED")}";
+        resultText.text = passed
+            ? "Good work. Aurora's mail is sorted."
+            : "You didn't meet today's quota.";
 
-        panel.SetActive(true);
+        continueButton.gameObject.SetActive(passed);
+        gameOverButton.gameObject.SetActive(!passed);
+
+        if (GameTimer.Instance != null)
+            GameTimer.Instance.enabled = false;
     }
 
-    void OnNextDayClicked()
+    public void OnContinueClicked()
     {
-        // day 2 not implemented yet, just close for now
-        panel.SetActive(false);
-        Debug.Log("Day 2 not implemented yet!");
+        int score = ScoreManager.Instance.GetTotalScore();
+        GameManager.Instance.OnDayComplete(score);
+        ScoreManager.Instance.ResetDay();
+        GameManager.Instance.LoadNextDay();
     }
 
-    void OnDestroy()
+    public void OnGameOverClicked()
     {
-        nextDayButton.onClick.RemoveAllListeners();
+        GameManager.Instance.TriggerGameOver();
     }
 }
