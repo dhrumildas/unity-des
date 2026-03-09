@@ -108,6 +108,8 @@ namespace MailSorting.Gameplay
                 return;
             }
 
+
+
             int mailsPerChunk = quota / guaranteedCount;
             int remainder = quota % guaranteedCount; // it wont always divide evenly
             for (int i =0; i < guaranteedCount;  i++)
