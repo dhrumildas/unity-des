@@ -23,7 +23,9 @@ MonoBehaviour:
   characterAMail: {fileID: 0}
   characterBMail: {fileID: 0}
   characterCMail: {fileID: 0}
-  guaranteedMails: []
+  guaranteedMails:
+  - {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
+  - {fileID: 11400000, guid: cd8c38e1b358fbc498983418f1e985d5, type: 2}
   maxSentencesAllowed: 4
   maxDimensions: {x: 30, y: 20}
   maxWeightLimit: 1000
