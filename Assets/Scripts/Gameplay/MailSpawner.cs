@@ -194,24 +194,26 @@ namespace MailSorting.Gameplay
             }
 
             currentMailObject = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-            currentMailObject.transform.SetParent(letterSpawnPoint, false);
+            currentMailObject.transform.SetParent(isPackage ? packageSpawnPoint : letterSpawnPoint, false);
 
-            // Pass data to drag component
             UI_DragCheck drag = currentMailObject.GetComponent<UI_DragCheck>();
             if (drag != null)
                 drag.mailData = data;
 
-            // Set envelope sprite
             Image img = currentMailObject.GetComponent<Image>();
             if (img != null && data.mailSprite != null)
                 img.sprite = data.mailSprite;
 
-            // Initialise envelope
+            // Envelope
             EnvelopeObject envelope = currentMailObject.GetComponent<EnvelopeObject>();
             if (envelope != null)
                 envelope.Initialise(data);
 
-            // Tell action buttons
+            // Package
+            PackageObject package = currentMailObject.GetComponent<PackageObject>();
+            if (package != null)
+                package.Initialise(data);
+
             if (ActionButtonController.Instance != null)
                 ActionButtonController.Instance.SetCurrentMail(data);
         }
@@ -221,8 +223,10 @@ namespace MailSorting.Gameplay
             if (currentMailObject != null)
             {
                 EnvelopeObject envelope = currentMailObject.GetComponent<EnvelopeObject>();
-                if (envelope != null)
-                    envelope.DestroyLetter();
+                if (envelope != null) envelope.DestroyLetter();
+
+                PackageObject package = currentMailObject.GetComponent<PackageObject>();
+                if (package != null) package.DestroyContents();
 
                 Destroy(currentMailObject);
             }
