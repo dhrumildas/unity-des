@@ -8,6 +8,12 @@ public class ScoreManager : MonoBehaviour
     public DAY_SO currentDayConfig;
     public List<MailRules> activeRules = new List<MailRules>();
     public List<MailRules> inactiveRules = new List<MailRules>();
+
+    public int currentMaxSentences;
+    public Vector2 currentMaxDimensions;
+    public int currentMaxWeight;
+    public int currentMaxGiftValue;
+
     private int totalScore = 0;
     private int mailsProcessed = 0;
     private int correctDecisions = 0;
@@ -48,6 +54,15 @@ public class ScoreManager : MonoBehaviour
         inactiveRules.Add(MailRules.Country);
 
         Debug.Log("[ScoreManager] Day 1 Rules Initialized.");
+    }
+
+    public void GenerateRandomLimits()
+    {
+        currentMaxSentences = Random.Range(3, 8);
+        currentMaxDimensions = new Vector2(Random.Range(100, 601), Random.Range(100, 601));
+        currentMaxWeight = Random.Range(500, 1501);
+        currentMaxGiftValue = Random.Range(100, 1001);
+        Debug.Log($"[ScoreManager] Daily Limits Randomized! Sentences: {currentMaxSentences} | Weight: {currentMaxWeight}g | Dim: {currentMaxDimensions.x}x{currentMaxDimensions.y} | Gift: ${currentMaxGiftValue}");
     }
 
     public MailRules? DraftNewRule()
@@ -122,13 +137,13 @@ public class ScoreManager : MonoBehaviour
         // Dynamic Rule Checks
         if (activeRules.Contains(MailRules.Address) && !mail.addressedCorrectly) violations++;
         if (activeRules.Contains(MailRules.Signature) && !mail.signedCorrectly) violations++;
-        if (activeRules.Contains(MailRules.Sentences) && mail.sentenceCount > currentDayConfig.maxSentencesAllowed) violations++;
-        if (activeRules.Contains(MailRules.Weight) && mail.weight > currentDayConfig.maxWeightLimit) violations++;
-        if (activeRules.Contains(MailRules.GiftValue) && mail.giftValue > currentDayConfig.maxGiftValue) violations++;
+        if (activeRules.Contains(MailRules.Sentences) && mail.sentenceCount > currentMaxSentences) violations++;
+        if (activeRules.Contains(MailRules.Weight) && mail.weight > currentMaxWeight) violations++;
+        if (activeRules.Contains(MailRules.GiftValue) && mail.giftValue > currentMaxGiftValue) violations++;
 
         if (activeRules.Contains(MailRules.Dimension))
         {
-            if (mail.dimensions.x > currentDayConfig.maxDimensions.x || mail.dimensions.y > currentDayConfig.maxDimensions.y)
+            if (mail.dimensions.x > currentMaxDimensions.x || mail.dimensions.y > currentMaxDimensions.y)
                 violations++;
         }
 
@@ -144,6 +159,8 @@ public class ScoreManager : MonoBehaviour
         if (violations == 1) return MailAction.Reply;
         return MailAction.Reject;
     }
+
+
 
     public int GetTotalScore() => totalScore;
     public int GetCorrect() => correctDecisions;

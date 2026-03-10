@@ -147,23 +147,23 @@ namespace MailSorting.Gameplay
         private IEnumerator SpawnLoop()
         {
             // Tutorial first on Day 1
-            if (dayConfig.isTutorialDay)
-            {
-                List<Mail_Items_SO> tutorial = new List<Mail_Items_SO>();
-                if (dayConfig.tutorialAccept != null) tutorial.Add(dayConfig.tutorialAccept);
-                if (dayConfig.tutorialReply != null) tutorial.Add(dayConfig.tutorialReply);
-                if (dayConfig.tutorialReject != null) tutorial.Add(dayConfig.tutorialReject);
-                if (dayConfig.tutorialReport != null) tutorial.Add(dayConfig.tutorialReport);
+            //if (dayConfig.isTutorialDay)
+            //{
+            //    List<Mail_Items_SO> tutorial = new List<Mail_Items_SO>();
+            //    if (dayConfig.tutorialAccept != null) tutorial.Add(dayConfig.tutorialAccept);
+            //    if (dayConfig.tutorialReply != null) tutorial.Add(dayConfig.tutorialReply);
+            //    if (dayConfig.tutorialReject != null) tutorial.Add(dayConfig.tutorialReject);
+            //    if (dayConfig.tutorialReport != null) tutorial.Add(dayConfig.tutorialReport);
 
-                foreach (var mail in tutorial)
-                {
-                    Debug.Log($"[MailSpawner] Tutorial: {mail.mailID}");
-                    waitingForSort = true;
-                    SpawnMail(mail);
-                    yield return new WaitUntil(() => !waitingForSort);
-                }
-                Debug.Log("[MailSpawner] Tutorial complete.");
-            }
+            //    foreach (var mail in tutorial)
+            //    {
+            //        Debug.Log($"[MailSpawner] Tutorial: {mail.mailID}");
+            //        waitingForSort = true;
+            //        SpawnMail(mail);
+            //        yield return new WaitUntil(() => !waitingForSort);
+            //    }
+            //    Debug.Log("[MailSpawner] Tutorial complete.");
+            //}
 
             // Main queue
             Debug.Log($"[MailSpawner] Main queue count: {mainQueue.Count}");

@@ -11,25 +11,20 @@ public class DAY_SO : ScriptableObject
     public int passScoreThreshold = 100;
     public bool isTutorialDay = false;
 
-    [Header("Tutorial (Day 1 only)")]
-    public Mail_Items_SO tutorialAccept;
-    public Mail_Items_SO tutorialReply;
-    public Mail_Items_SO tutorialReject;
-    public Mail_Items_SO tutorialReport;
 
-    [Header("Guaranteed — Characters")]
-    public Mail_Items_SO characterAMail;
-    public Mail_Items_SO characterBMail;
-    public Mail_Items_SO characterCMail;
+    //[Header("Guaranteed — Characters")]
+    //public Mail_Items_SO characterAMail;
+    //public Mail_Items_SO characterBMail;
+    //public Mail_Items_SO characterCMail;
 
     [Header("Guaranteed Story Mails")]
     public List<Mail_Items_SO> guaranteedMails = new List<Mail_Items_SO>();
 
-    [Space(10)]
-    [Header("RULE PARAMETERS (Used if rule is active)")]
-    public int maxSentencesAllowed = 4;
-    public Vector2 maxDimensions = new Vector2(30f, 20f);
-    public float maxWeightLimit = 1000f;
-    public int maxGiftValue = 50;
+    //[Space(10)]
+    //[Header("RULE PARAMETERS (Used if rule is active)")]
+    //public int maxSentencesAllowed = 4;
+    //public Vector2 maxDimensions = new Vector2(30f, 20f);
+    //public float maxWeightLimit = 1000f;
+    //public int maxGiftValue = 50;
     public bool ExactlyOneQuestion = false;
 }
