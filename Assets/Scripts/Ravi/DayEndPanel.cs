@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -31,13 +31,30 @@ public class DayEndPanel : MonoBehaviour
 
     public void Show()
     {
+        // Destroy all active mail objects on the canvas
+        foreach (var envelope in FindObjectsByType<EnvelopeObject>(FindObjectsSortMode.None))
+        {
+            envelope.DestroyLetter();
+            Destroy(envelope.gameObject);
+        }
+
+        foreach (var package in FindObjectsByType<PackageObject>(FindObjectsSortMode.None))
+        {
+            package.DestroyContents();
+            Destroy(package.gameObject);
+        }
+
+        // Destroy any orphaned letter or item objects
+        foreach (var letter in FindObjectsByType<LetterObject>(FindObjectsSortMode.None))
+            Destroy(letter.gameObject);
+
         panelRoot.SetActive(true);
 
         int score = ScoreManager.Instance.GetTotalScore();
         bool passed = score >= dailyQuota;
 
         scoreText.text = $"Score: {score}";
-        quotaText.text = $"Quota: {dailyQuota} — {(passed ? "PASSED" : "FAILED")}";
+        quotaText.text = $"Quota: {dailyQuota} ï¿½ {(passed ? "PASSED" : "FAILED")}";
         resultText.text = passed
             ? "Good work. Aurora's mail is sorted."
             : "You didn't meet today's quota.";
