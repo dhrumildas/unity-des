@@ -31,6 +31,23 @@ public class DayEndPanel : MonoBehaviour
 
     public void Show()
     {
+        // Destroy all active mail objects on the canvas
+        foreach (var envelope in FindObjectsByType<EnvelopeObject>(FindObjectsSortMode.None))
+        {
+            envelope.DestroyLetter();
+            Destroy(envelope.gameObject);
+        }
+
+        foreach (var package in FindObjectsByType<PackageObject>(FindObjectsSortMode.None))
+        {
+            package.DestroyContents();
+            Destroy(package.gameObject);
+        }
+
+        // Destroy any orphaned letter or item objects
+        foreach (var letter in FindObjectsByType<LetterObject>(FindObjectsSortMode.None))
+            Destroy(letter.gameObject);
+
         panelRoot.SetActive(true);
 
         int score = ScoreManager.Instance.GetTotalScore();

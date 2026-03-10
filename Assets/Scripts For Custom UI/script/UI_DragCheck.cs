@@ -133,7 +133,7 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             if (GetComponentInParent<WeighingScaleUI>() != null)
             {
                 sortingCanvas.overrideSorting = true;
-                sortingCanvas.sortingOrder = 10;
+                sortingCanvas.sortingOrder = 10;    
             }
             else
             {

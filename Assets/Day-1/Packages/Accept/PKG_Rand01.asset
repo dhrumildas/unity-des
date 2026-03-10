@@ -15,7 +15,7 @@ MonoBehaviour:
   mailID: R12
   mailType: 1
   appearanceDay: 1
-  importance: 0
+  senderProfile: 0
   spawnType: 1
   senderName: Maelle
   senderAddress: "127 Avenue du R\xEAve Dor\xE9, 75004 Paris"
@@ -28,6 +28,7 @@ MonoBehaviour:
     accept it as a token of my affection
   sentenceCount: 2
   containsQuestion: 0
+  questionCount: 0
   letterContentImage: {fileID: 5434052794432555120, guid: 9bbb976d9f532d141b10776ed9aa8903, type: 3}
   isEncrypted: 0
   countryOfOrigin: 4
@@ -56,5 +57,3 @@ MonoBehaviour:
   visualClues: []
   replyCategory: 0
   replyTextOverride: 
-  idealAction: 0
-  brokenRuleIDs: []
