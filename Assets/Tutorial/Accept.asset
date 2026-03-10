@@ -25,15 +25,18 @@ MonoBehaviour:
   addressedCorrectly: 1
   signatureName: 
   signedCorrectly: 1
-  letterContent: 
-  sentenceCount: 3
+  letterContent: 'Hello Aurora,
+
+    You have been an inspiration to me and my younger
+    sister. We are so excited to know you''re coming to Chicago!! '
+  sentenceCount: 2
   containsQuestion: 0
   questionCount: 0
   letterContentImage: {fileID: 0}
   isEncrypted: 0
   countryOfOrigin: 0
   postageType: 0
-  weight: 50
+  weight: 26
   dimensions: {x: 21, y: 15}
   packageSideSprites:
   - {fileID: 0}
