@@ -9,27 +9,45 @@ public class EnvelopeObject : MonoBehaviour
     public Image envelopeImage;
     public TextMeshProUGUI receiverAddressText;
     public Button openButton;
-
-    [Header("Letter")]
-    public GameObject letterPrefab;
+    public GameObject letterObject;
 
     private Mail_Items_SO mailData;
     private bool isOpened = false;
+
     private GameObject spawnedLetter;
 
     public void Initialise(Mail_Items_SO data)
     {
         mailData = data;
 
+        // Set envelope sprite
         if (envelopeImage != null && data.mailSprite != null)
             envelopeImage.sprite = data.mailSprite;
 
-        if (envelopeImage != null)
-            envelopeImage.color = new Color(0.95f, 0.85f, 0.7f);
-
+        // Hardcoded receiver address — never changes
         if (receiverAddressText != null)
             receiverAddressText.text = "AVA Talent Corporation\nPO BOX 12118\nPrestige Continue\nNew New Eden";
 
+        // Immediately unparent letter to canvas root so it drags independently
+        if (letterObject != null)
+        {
+            Canvas rootCanvas = GetComponentInParent<Canvas>();
+            letterObject.transform.SetParent(rootCanvas.transform, true);
+            letterObject.SetActive(false); // still hidden until opened
+
+            // Give letter its own UI_DragCheck
+            UI_DragCheck letterDrag = letterObject.GetComponent<UI_DragCheck>();
+            if (letterDrag == null)
+                letterDrag = letterObject.AddComponent<UI_DragCheck>();
+
+            // Assign mail data so scale can read letter weight
+            letterDrag.mailData = data;
+
+            //letterDrag.setOriginalParent(rootCanvas.transform);
+
+        }
+
+        // Wire open button
         if (openButton != null)
             openButton.onClick.AddListener(OnOpenClicked);
     }
@@ -39,27 +57,22 @@ public class EnvelopeObject : MonoBehaviour
         if (isOpened) return;
         isOpened = true;
 
-        // Spawn letter prefab directly on canvas
-        Canvas rootCanvas = GetComponentInParent<Canvas>();
-        while (rootCanvas.transform.parent != null &&
-           rootCanvas.transform.parent.GetComponent<Canvas>() != null)
-            rootCanvas = rootCanvas.transform.parent.GetComponent<Canvas>();
-        spawnedLetter = Instantiate(letterPrefab, rootCanvas.transform);
+        if (letterObject != null)
+        {
+            Canvas rootCanvas = GetComponentInParent<Canvas>();
+            letterObject.transform.SetParent(rootCanvas.transform, false);
+            letterObject.SetActive(true);
+            spawnedLetter = letterObject;
 
-        // Position it next to envelope
-        RectTransform envelopeRt = GetComponent<RectTransform>();
-        RectTransform letterRt = spawnedLetter.GetComponent<RectTransform>();
-        letterRt.anchoredPosition = envelopeRt.anchoredPosition + new Vector2(20f, 20f);
+            LetterObject letter = letterObject.GetComponent<LetterObject>();
+            if (letter != null)
+                letter.Initialise(mailData);
 
-        // Assign mail data to drag
-        UI_DragCheck letterDrag = spawnedLetter.GetComponent<UI_DragCheck>();
-        if (letterDrag != null)
+            UI_DragCheck letterDrag = letterObject.GetComponent<UI_DragCheck>();
+            if (letterDrag == null)
+                letterDrag = letterObject.AddComponent<UI_DragCheck>();
             letterDrag.mailData = mailData;
-
-        // Initialise letter content
-        LetterObject letter = spawnedLetter.GetComponent<LetterObject>();
-        if (letter != null)
-            letter.Initialise(mailData);
+        }
 
         if (openButton != null)
             openButton.gameObject.SetActive(false);

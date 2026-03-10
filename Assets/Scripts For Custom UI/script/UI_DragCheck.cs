@@ -70,16 +70,7 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void OnBeginDrag(PointerEventData eventData)
     {
         isDragging = true;
-
-        // Always drag under root canvas
-        Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-        Canvas rootCanvas = null;
-        foreach (var c in allCanvases)
-            if (c.isRootCanvas) { rootCanvas = c; break; }
-
-        if (rootCanvas != null)
-            transform.SetParent(rootCanvas.transform, true);
-
+        transform.SetParent(originalParent, true);
         canvasGroup.blocksRaycasts = false;
     }
 
@@ -99,28 +90,33 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         GameObject droppedObject = eventData.pointerCurrentRaycast.gameObject;
         WeighingScaleUI targetScale = null;
 
+        // Safely see if we dropped it on a scale
         if (droppedObject != null)
+        {
             targetScale = droppedObject.GetComponentInParent<WeighingScaleUI>();
+        }
 
         if (targetScale != null)
         {
+            // Safety check in case the Scriptable Object isn't assigned in the inspector
             if (mailData != null)
+            {
                 targetScale.UpdateWeightDisplay(mailData.weight);
+            }
+            else
+            {
+                Debug.LogWarning("[UI_DragCheck] Mail Data is missing in the Inspector! Cannot read weight.");
+            }
+
+            // Parent to the specific scale we dropped it on
             transform.SetParent(targetScale.GetComponent<RectTransform>(), true);
+
             sortingCanvas.overrideSorting = true;
             sortingCanvas.sortingOrder = 10;
         }
         else
         {
-            // Stay under root canvas after drag
-            Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-            Canvas rootCanvas = null;
-            foreach (var c in allCanvases)
-                if (c.isRootCanvas) { rootCanvas = c; break; }
-
-            if (rootCanvas != null)
-                transform.SetParent(rootCanvas.transform, true);
-
+            transform.SetParent(originalParent, true);
             sortingCanvas.overrideSorting = false;
         }
     }
@@ -141,5 +137,5 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             }
         }
     }
-    
+
 }

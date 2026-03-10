@@ -34,8 +34,12 @@ namespace MailSorting.Data
         public string fanProfileID;
 
         [Header("Letter Content")]
+        [TextArea(4, 10)]
+        [Tooltip("How the sender addressed AVA(shown at the mail - cover sprite when it is spawned BEFORE opening it")]
+        public string companyAddress;
+
         [Tooltip("How the sender addressed Aurora (displayed text the player reads)")]
-        public string addressedName;
+        public string howAuroraAddressed;
 
         [Tooltip("Does the addressing pass the rule check?")]
         public bool addressedCorrectly = true;
@@ -186,25 +190,25 @@ namespace MailSorting.Data
             return null;
         }
 
-        public string GetDebugInfo()
-        {
-            //string validation = ValidateIdealAction() ? "VALID" : "MISMATCH — computed: " + ComputeIdealAction();
-            string contentMode = string.IsNullOrEmpty(letterContent)
-                ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
-                : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
+        //public string GetDebugInfo()
+        //{
+        //    //string validation = ValidateIdealAction() ? "VALID" : "MISMATCH — computed: " + ComputeIdealAction();
+        //    string contentMode = string.IsNullOrEmpty(letterContent)
+        //        ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
+        //        : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
 
-            return $"[{mailID}] {mailType} from {senderName} [{spawnType}]\n" +
-                   $"Addressed: \"{addressedName}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
-                   $"Signed: \"{signatureName}\" ({(signedCorrectly ? "OK" : "WRONG")})\n" +
-                   $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
-                   $"Content Mode: {contentMode}, Encrypted: {isEncrypted}\n" +
-                   $"Contraband: {containsContraband} ({contrabandType})\n" +
-                   $"Substance: {containsSubstance} ({substanceType})\n" +
-                   $"Weight: {weight}g, Dims: {dimensions}cm\n" +
-                   $"Country: {countryOfOrigin}, Postage: {postageType}\n]";
-                   //$"Reply: {replyCategory}\n" +
-                   //$"Ideal Action: {idealAction} [{validation}]\n" +
-                   //$"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
-        }
+        //    return $"[{mailID}] {mailType} from {senderName} [{spawnType}]\n" +
+        //           $"Addressed: \"{addressedName}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Signed: \"{signatureName}\" ({(signedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
+        //           $"Content Mode: {contentMode}, Encrypted: {isEncrypted}\n" +
+        //           $"Contraband: {containsContraband} ({contrabandType})\n" +
+        //           $"Substance: {containsSubstance} ({substanceType})\n" +
+        //           $"Weight: {weight}g, Dims: {dimensions}cm\n" +
+        //           $"Country: {countryOfOrigin}, Postage: {postageType}\n]";
+        //           //$"Reply: {replyCategory}\n" +
+        //           //$"Ideal Action: {idealAction} [{validation}]\n" +
+        //           //$"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
+        //}
     }
 }

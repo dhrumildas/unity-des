@@ -84,4 +84,19 @@ namespace MailSorting.Data
         Florian,
         UnnamedStalker
     }
+
+
+    public enum MailRules
+    {
+        Address,
+        Signature,
+        Contraband,
+        Weight,
+        Dimension,
+        GiftValue,
+        Questions,
+        Sentences,
+        Postage,
+        Country
+    }
 }

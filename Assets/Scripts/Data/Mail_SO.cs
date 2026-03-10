@@ -34,8 +34,12 @@ namespace MailSorting.Data
         //public string fanProfileID;
 
         [Header("Letter Content")]
+        [TextArea(4, 10)]
+        [Tooltip("How the sender addressed AVA(shown at the mail - cover sprite when it is spawned BEFORE opening it")]
+        public string companyAddress;
+
         [Tooltip("How the sender addressed Aurora (displayed text the player reads)")]
-        public string receiverAddress;  //this has to be changed like content
+        public string howAuroraAddressed;  //this has to be changed like content
 
         [Tooltip("Does the addressing pass the rule check?")]
         public bool addressedCorrectly = true;
@@ -43,8 +47,8 @@ namespace MailSorting.Data
         [Tooltip("How the sender signed the letter (displayed text)")]
         public string signatureName;
 
-        //[Tooltip("Does the signature pass the rule check?")]
-        //public bool signedCorrectly = true;
+        [Tooltip("Does the signature pass the rule check?")]
+        public bool signedCorrectly = true;
 
         [Tooltip("The body text of the letter. Leave empty if the letter is image-only.")]
         [TextArea(5, 15)]
@@ -60,9 +64,9 @@ namespace MailSorting.Data
         [Range(0, 10)]
         public int questionCount = 0;
 
-        [Header("Letter Content — Images")]
-        [Tooltip("Image displayed within the letter body (inline alongside text, or full-page if letterContent is empty)")]
-        public Sprite letterContentImage;
+        //[Header("Letter Content ? Images")]
+        //[Tooltip("Image displayed within the letter body (inline alongside text, or full-page if letterContent is empty)")]
+        //public Sprite letterContentImage;
 
         //[Tooltip("Is the letter content encrypted/encoded? (cipher, binary, etc.) Purely informational for narrative.")]
         //public bool isEncrypted = false;
@@ -81,10 +85,6 @@ namespace MailSorting.Data
 
         [Tooltip("Dimensions in cm (width x height)")]
         public Vector2 dimensions = new Vector2(21f, 15f);
-
-        [Header("Package-Specific (ignore for letters)")]
-        [Tooltip("Sprite for the top-down view of the package")]
-        public Sprite packageTopDownSprite; //change it to just one for the top-down view; need to simplify the visuals and reduce art workload or probably just use one variable
 
         //[Tooltip("Description of what is actually inside the package")]
         //public string itemInsideDescription;
@@ -137,29 +137,29 @@ namespace MailSorting.Data
         [Tooltip("Sprite for the postage stamp area")]
         public Sprite postageStampSprite;
 
-        [Tooltip("Additional visual elements: stickers, stains, markings")]
-        public Sprite[] visualClues;
+        //[Tooltip("Additional visual elements: stickers, stains, markings")]
+        //public Sprite[] visualClues;
 
 
-        public string GetDebugInfo()
-        {
-            //string validation = ValidateIdealAction() ? "VALID" : "MISMATCH — computed: " + ComputeIdealAction();
-            string contentMode = string.IsNullOrEmpty(letterContent)
-                ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
-                : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
+        //public string GetDebugInfo()
+        //{
+        //    //string validation = ValidateIdealAction() ? "VALID" : "MISMATCH ? computed: " + ComputeIdealAction();
+        //    string contentMode = string.IsNullOrEmpty(letterContent)
+        //        ? (letterContentImage != null ? "IMAGE-ONLY" : "EMPTY")
+        //        : (letterContentImage != null ? "TEXT+IMAGE" : "TEXT-ONLY");
 
-            return $"{mailType} from {senderName} [{spawnType}]\n" +
-                   $"Addressed: \"{receiverAddress}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
-                   $"Signed: \"{signatureName}\"\n" +
-                   $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
-                   $"Content Mode: {contentMode}\n" +
-                   $"Contraband: {containsContraband}\n" +
-                   $"Substance: {containsSubstance}\n" +
-                   $"Weight: {weight}g, Dims: {dimensions}cm\n" +
-                   $"Country: {countryOfOrigin}, Postage: {postageType}\n]";
-            //$"Reply: {replyCategory}\n" +
-            //$"Ideal Action: {idealAction} [{validation}]\n" +
-            //$"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
-        }
+        //    return $"{mailType} from {senderName} [{spawnType}]\n" +
+        //           $"Addressed: \"{companyAddress}\" ({(addressedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Signed: \"{signatureName}\" ({(signedCorrectly ? "OK" : "WRONG")})\n" +
+        //           $"Sentences: {sentenceCount}, Question: {containsQuestion}\n" +
+        //           $"Content Mode: {contentMode}\n" +
+        //           $"Contraband: {containsContraband}\n" +
+        //           $"Substance: {containsSubstance}\n" +
+        //           $"Weight: {weight}g, Dims: {dimensions}cm\n" +
+        //           $"Country: {countryOfOrigin}, Postage: {postageType}\n]";
+        //    //$"Reply: {replyCategory}\n" +
+        //    //$"Ideal Action: {idealAction} [{validation}]\n" +
+        //    //$"Broken Rules: [{string.Join(", ", brokenRuleIDs ?? new string[0])}]";
+        //}
     }
 }

@@ -26,7 +26,7 @@ public class LetterObject : MonoBehaviour
 
         // Salutation
         if (salutationText != null)
-            salutationText.text = data.addressedCorrectly ? "Dear Aurora," : data.addressedName;
+            salutationText.text = data.addressedCorrectly ? "Dear Aurora," : data.howAuroraAddressed;
 
         // Body
         if (bodyText != null)

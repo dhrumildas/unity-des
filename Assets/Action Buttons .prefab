@@ -86,7 +86,8 @@ GameObject:
   - component: {fileID: 7088003244100775822}
   - component: {fileID: 7999748030682862120}
   - component: {fileID: 180821763189336750}
-  - component: {fileID: 7038576786383394426}
+  - component: {fileID: 777124970686681147}
+  - component: {fileID: 8026091450800076722}
   m_Layer: 5
   m_Name: 'Action Buttons '
   m_TagString: Untagged
@@ -156,7 +157,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7038576786383394426
+--- !u!114 &777124970686681147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,7 +172,23 @@ MonoBehaviour:
   panel: {fileID: 7088003244100775822}
   hiddenX: -1100
   shownX: -830
-  slideSpeed: 6
+  slideSpeed: 8
+--- !u!114 &8026091450800076722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462850054903438057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3adcb5e4c20b654293a08ea85fd984a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionButtonController
+  acceptButton: {fileID: 8424573414288368496}
+  replyButton: {fileID: 4035617037852478816}
+  rejectButton: {fileID: 6264813467203322868}
+  reportButton: {fileID: 5996248475745283320}
 --- !u!1 &522682888520620788
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ namespace MailSorting.Gameplay
     public class MailSpawner : MonoBehaviour
     {
         [Header("Day Config")]
-        public DayConfig dayConfig;
+        public DAY_SO dayConfig;
 
         [Header("Prefabs")]
         public GameObject letterPrefab;
@@ -32,57 +32,116 @@ namespace MailSorting.Gameplay
                 GameTimer.Instance.StartTimer();
         }
 
+        //private void BuildQueue()
+        //{
+        //    mainQueue.Clear();
+
+        //    if (dayConfig == null)
+        //    {
+        //        Debug.LogError("[MailSpawner] No DayConfig assigned!");
+        //        return;
+        //    }
+
+        //    Debug.Log($"[MailSpawner] randomPool entries in DayConfig: {dayConfig.randomPool.Count}");
+
+        //    // Build weighted random pool
+        //    List<Mail_Items_SO> randomPool = new List<Mail_Items_SO>();
+        //    foreach (var entry in dayConfig.randomPool)
+        //    {
+        //        Debug.Log($"Entry: {entry?.mailData?.mailID} | weight: {entry?.weight}");
+        //        if (entry.mailData == null) continue;
+        //        int w = entry.weight <= 0 ? 1 : entry.weight;
+        //        for (int i = 0; i < w; i++)
+        //            randomPool.Add(entry.mailData);
+        //    }
+
+        //    Debug.Log($"[MailSpawner] Random pool built: {randomPool.Count} entries");
+
+        //    // Shuffle random pool
+        //    for (int i = randomPool.Count - 1; i > 0; i--)
+        //    {
+        //        int j = Random.Range(0, i + 1);
+        //        (randomPool[i], randomPool[j]) = (randomPool[j], randomPool[i]);
+        //    }
+
+        //    // Guaranteed mails
+        //    List<Mail_Items_SO> guaranteed = new List<Mail_Items_SO>();
+        //    if (dayConfig.characterAMail != null) guaranteed.Add(dayConfig.characterAMail);
+        //    if (dayConfig.characterBMail != null) guaranteed.Add(dayConfig.characterBMail);
+        //    if (dayConfig.characterCMail != null) guaranteed.Add(dayConfig.characterCMail);
+        //    if (dayConfig.generalGuaranteedMail != null) guaranteed.Add(dayConfig.generalGuaranteedMail);
+
+        //    // Interleave guaranteed every 3rd slot
+        //    int gIdx = 0;
+        //    for (int i = 0; i < randomPool.Count; i++)
+        //    {
+        //        if (i % 3 == 0 && gIdx < guaranteed.Count)
+        //            mainQueue.Add(guaranteed[gIdx++]);
+        //        mainQueue.Add(randomPool[i]);
+        //    }
+        //    while (gIdx < guaranteed.Count)
+        //        mainQueue.Add(guaranteed[gIdx++]);
+
+        //    Debug.Log($"[MailSpawner] Day {dayConfig.dayNumber} — {mainQueue.Count} mails queued.");
+        //}
+
         private void BuildQueue()
         {
             mainQueue.Clear();
 
-            if (dayConfig == null)
+            if(dayConfig == null)
             {
-                Debug.LogError("[MailSpawner] No DayConfig assigned!");
+                Debug.Log("No day config assigned");
                 return;
             }
 
-            Debug.Log($"[MailSpawner] randomPool entries in DayConfig: {dayConfig.randomPool.Count}");
+            int quota = dayConfig.dailyQuota;
+            List<Mail_Items_SO> guaranteed = new List<Mail_Items_SO>(dayConfig.guaranteedMails);
+            int guaranteedCount = guaranteed.Count;
 
-            // Build weighted random pool
-            List<Mail_Items_SO> randomPool = new List<Mail_Items_SO>();
-            foreach (var entry in dayConfig.randomPool)
+            if(guaranteedCount == 0)
             {
-                Debug.Log($"Entry: {entry?.mailData?.mailID} | weight: {entry?.weight}");
-                if (entry.mailData == null) continue;
-                int w = entry.weight <= 0 ? 1 : entry.weight;
-                for (int i = 0; i < w; i++)
-                    randomPool.Add(entry.mailData);
+                for (int i = 0; i < quota; i++)
+                {
+                    mainQueue.Add(MailDatabase.Instance.GetRandomMail());
+                }
+                return;
             }
 
-            Debug.Log($"[MailSpawner] Random pool built: {randomPool.Count} entries");
 
-            // Shuffle random pool
-            for (int i = randomPool.Count - 1; i > 0; i--)
+
+            int mailsPerChunk = quota / guaranteedCount;
+            int remainder = quota % guaranteedCount; // it wont always divide evenly
+            for (int i =0; i < guaranteedCount;  i++)
             {
-                int j = Random.Range(0, i + 1);
-                (randomPool[i], randomPool[j]) = (randomPool[j], randomPool[i]);
+                List<Mail_Items_SO> currentBracket = new List<Mail_Items_SO>();
+                currentBracket.Add(guaranteed[i]);
+                int bracketRandomCount = mailsPerChunk - 1;   //1 for the guaranteed
+
+                //check if this is the last bracket
+                if(i == guaranteedCount - 1)
+                {
+                    bracketRandomCount += remainder;
+                }
+
+                for(int r = 0; r <bracketRandomCount; r++)
+                {
+                    Mail_Items_SO randomMail = MailDatabase.Instance.GetRandomMail();
+                    if(randomMail != null)
+                    {
+                        currentBracket.Add(randomMail);
+                        //Note : This doesn't remove it from the Master Pool. Prolly an even would do it
+                    }
+                }
+
+                for (int j = currentBracket.Count - 1; j >= 0; j--)
+                {
+                    int k = Random.Range(0, j + 1);
+                    (currentBracket[j], currentBracket[k]) = (currentBracket[k],  currentBracket[j]);
+                }
+                mainQueue.AddRange(currentBracket);
             }
-
-            // Guaranteed mails
-            List<Mail_Items_SO> guaranteed = new List<Mail_Items_SO>();
-            if (dayConfig.characterAMail != null) guaranteed.Add(dayConfig.characterAMail);
-            if (dayConfig.characterBMail != null) guaranteed.Add(dayConfig.characterBMail);
-            if (dayConfig.characterCMail != null) guaranteed.Add(dayConfig.characterCMail);
-            if (dayConfig.generalGuaranteedMail != null) guaranteed.Add(dayConfig.generalGuaranteedMail);
-
-            // Interleave guaranteed every 3rd slot
-            int gIdx = 0;
-            for (int i = 0; i < randomPool.Count; i++)
-            {
-                if (i % 3 == 0 && gIdx < guaranteed.Count)
-                    mainQueue.Add(guaranteed[gIdx++]);
-                mainQueue.Add(randomPool[i]);
-            }
-            while (gIdx < guaranteed.Count)
-                mainQueue.Add(guaranteed[gIdx++]);
-
-            Debug.Log($"[MailSpawner] Day {dayConfig.dayNumber} — {mainQueue.Count} mails queued.");
+            Debug.Log($"[MailSpawner] Day {dayConfig.dayNumber} Queue Built. Total: {mainQueue.Count}. Chunks: {guaranteedCount}");
         }
 
         private IEnumerator SpawnLoop()
