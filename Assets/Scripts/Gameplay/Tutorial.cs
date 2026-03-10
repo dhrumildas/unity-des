@@ -3,7 +3,7 @@ using TMPro;
 using MailSorting.Data;
 using MailSorting.Gameplay;
 
-public class TutorialManager : MonoBehaviour
+public class Tutorial : MonoBehaviour
 {
     [Header("State Tracking")]
     public int stage = 0;
@@ -177,9 +177,17 @@ public class TutorialManager : MonoBehaviour
 
         currentSpawnedMail = Instantiate(letterPrefab, letterSpawnPoint.position, Quaternion.identity, letterSpawnPoint);
 
+        // 1. Initialize Envelope (if your prefab uses one)
         EnvelopeObject envelope = currentSpawnedMail.GetComponent<EnvelopeObject>();
         if (envelope != null) envelope.Initialise(mailData);
 
+        // 2. INITIALIZE THE LETTER (This is the fix!)
+        // It checks the main object first, and if it's not there, it checks the children.
+        LetterObject letter = currentSpawnedMail.GetComponent<LetterObject>();
+        if (letter == null) letter = currentSpawnedMail.GetComponentInChildren<LetterObject>(true);
+        if (letter != null) letter.Initialise(mailData);
+
+        // 3. Setup Dragging
         UI_DragCheck drag = currentSpawnedMail.GetComponent<UI_DragCheck>();
         if (drag != null) drag.mailData = mailData;
     }

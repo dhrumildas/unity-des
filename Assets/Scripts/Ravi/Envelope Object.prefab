@@ -107,7 +107,7 @@ MonoBehaviour:
   envelopeImage: {fileID: 0}
   receiverAddressText: {fileID: 6198746154787697672}
   openButton: {fileID: 2199902554637632753}
-  letterPrefab: {fileID: 2530390658831327492, guid: d3685642ae811a04a9462a649c75a819, type: 3}
+  letterObject: {fileID: 2530390658831327492, guid: d3685642ae811a04a9462a649c75a819, type: 3}
 --- !u!1 &4536938113681418063
 GameObject:
   m_ObjectHideFlags: 0
