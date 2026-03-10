@@ -35,10 +35,18 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        // Equivalent to your Check == "Space"
         if (!waitingForButton && Input.GetKeyDown(KeyCode.Space))
         {
-            LoadStage(stage + 1);
+            int nextStage = stage + 1;
+
+            // --- REWIND LOGIC ---
+            // If they are on a Fail or Acceptable screen, pressing space sends them back to the question!
+            if (stage == 13 || stage == 14) nextStage = 12; // Rewind to Accept Test
+            else if (stage == 16 || stage == 17) nextStage = 15; // Rewind to Reply Test
+            else if (stage == 19 || stage == 20) nextStage = 18; // Rewind to Reject Test
+            else if (stage == 22 || stage == 23) nextStage = 21; // Rewind to Report Test
+
+            LoadStage(nextStage);
         }
     }
 
@@ -89,6 +97,7 @@ public class Tutorial : MonoBehaviour
                 break;
             case 12:
                 agentText.text = "Okay, got all that? Go ahead and make a decision for the letter you have there.";
+                if (currentSpawnedMail == null) SpawnTutorialMail(acceptMail);
                 WaitForButton();
                 break;
 
@@ -158,11 +167,11 @@ public class Tutorial : MonoBehaviour
                 break;
         }
 
-        // Logic to "Rewind" if the player hit spacebar after failing a letter
-        if (stage == 13 || stage == 14) stage = 11; // Rewinds to "Make a decision..." (Accept)
-        if (stage == 16 || stage == 17) stage = 14; // Rewinds to waiting for Reply
-        if (stage == 19 || stage == 20) stage = 17; // Rewinds to waiting for Reject
-        if (stage == 22 || stage == 23) stage = 20; // Rewinds to waiting for Report
+        //// Logic to "Rewind" if the player hit spacebar after failing a letter
+        //if (stage == 13 || stage == 14) stage = 11; // Rewinds to "Make a decision..." (Accept)
+        //if (stage == 16 || stage == 17) stage = 14; // Rewinds to waiting for Reply
+        //if (stage == 19 || stage == 20) stage = 17; // Rewinds to waiting for Reject
+        //if (stage == 22 || stage == 23) stage = 20; // Rewinds to waiting for Report
     }
 
     private void WaitForButton()
