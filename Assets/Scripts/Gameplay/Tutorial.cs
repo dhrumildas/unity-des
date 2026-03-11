@@ -1,7 +1,8 @@
-using UnityEngine;
-using TMPro;
 using MailSorting.Data;
 using MailSorting.Gameplay;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
@@ -168,6 +169,7 @@ public class Tutorial : MonoBehaviour
                 break;
             case 26:
                 Debug.Log("Tutorial Complete! Transition to Clock In Scene!");
+                SceneManager.LoadScene("CardDrag");
                 // UnityEngine.SceneManagement.SceneManager.LoadScene("ClockInScene");
                 EOD.SetActive(true);
                 break;
