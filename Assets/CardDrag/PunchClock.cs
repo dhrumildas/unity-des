@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // NEW: Required for loading scenes
+using System.Collections;          // NEW: Required for Coroutines
 
 public class PunchClock : MonoBehaviour
 {
@@ -31,11 +33,32 @@ public class PunchClock : MonoBehaviour
         {
             hasTriggered = true;
 
+            // 1. Swap the sprite
             image.sprite = overlappedSprite;
             image.SetNativeSize();
-
             targetImage.gameObject.SetActive(false);
+
+            // 2. Start the countdown!
+            StartCoroutine(CountdownAndLoadScene());
         }
+    }
+
+    // --- NEW: The Countdown Coroutine ---
+    private IEnumerator CountdownAndLoadScene()
+    {
+        Debug.Log("3...");
+        yield return new WaitForSeconds(1f); // Wait 1 real second
+
+        Debug.Log("2...");
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("1...");
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("Next scene : CustomUITest");
+
+        // Load the scene! (Make sure "CustomUITest" is added to your Build Settings)
+        SceneManager.LoadScene("CustomUITest");
     }
 
     private bool RectOverlaps(RectTransform a, RectTransform b)

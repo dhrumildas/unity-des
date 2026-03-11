@@ -9,6 +9,7 @@ public class Tutorial : MonoBehaviour
     public int stage = 0;
     private bool waitingForButton = false;
     private string buttonPressed = "";
+    [SerializeField] private GameObject EOD;
 
     [Header("UI References")]
     public GameObject dialoguePanel;
@@ -26,7 +27,17 @@ public class Tutorial : MonoBehaviour
     public GameObject letterPrefab;
 
     private GameObject currentSpawnedMail;
-
+    public static Tutorial Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("Duplicate Tutorial Manager found! Destroying the imposter.");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
     void Start()
     {
         dialoguePanel.SetActive(true);
@@ -158,6 +169,7 @@ public class Tutorial : MonoBehaviour
             case 26:
                 Debug.Log("Tutorial Complete! Transition to Clock In Scene!");
                 // UnityEngine.SceneManagement.SceneManager.LoadScene("ClockInScene");
+                EOD.SetActive(true);
                 break;
 
             case -1:

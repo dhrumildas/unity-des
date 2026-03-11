@@ -24,28 +24,11 @@ public class EnvelopeObject : MonoBehaviour
         if (envelopeImage != null && data.mailSprite != null)
             envelopeImage.sprite = data.mailSprite;
 
-        // Hardcoded receiver address — never changes
+        // Hardcoded receiver address
         if (receiverAddressText != null)
             receiverAddressText.text = "AVA Talent Corporation\nPO BOX 12118\nPrestige Continue\nNew New Eden";
 
-        // Immediately unparent letter to canvas root so it drags independently
-        if (letterObject != null)
-        {
-            Canvas rootCanvas = GetComponentInParent<Canvas>();
-            letterObject.transform.SetParent(rootCanvas.transform, true);
-            letterObject.SetActive(false); // still hidden until opened
-
-            // Give letter its own UI_DragCheck
-            UI_DragCheck letterDrag = letterObject.GetComponent<UI_DragCheck>();
-            if (letterDrag == null)
-                letterDrag = letterObject.AddComponent<UI_DragCheck>();
-
-            // Assign mail data so scale can read letter weight
-            letterDrag.mailData = data;
-
-            //letterDrag.setOriginalParent(rootCanvas.transform);
-
-        }
+        // *** REMOVED the entire letterObject.transform.SetParent block from here ***
 
         // Wire open button
         if (openButton != null)
@@ -57,20 +40,22 @@ public class EnvelopeObject : MonoBehaviour
         if (isOpened) return;
         isOpened = true;
 
+        // letterObject is now your Prefab from the Project window
         if (letterObject != null)
         {
             Canvas rootCanvas = GetComponentInParent<Canvas>();
-            letterObject.transform.SetParent(rootCanvas.transform, false);
-            letterObject.SetActive(true);
-            spawnedLetter = letterObject;
 
-            LetterObject letter = letterObject.GetComponent<LetterObject>();
+            // Instantiate the prefab directly onto the root canvas so it moves independently!
+            spawnedLetter = Instantiate(letterObject, rootCanvas.transform, false);
+
+            LetterObject letter = spawnedLetter.GetComponent<LetterObject>();
             if (letter != null)
                 letter.Initialise(mailData);
 
-            UI_DragCheck letterDrag = letterObject.GetComponent<UI_DragCheck>();
+            UI_DragCheck letterDrag = spawnedLetter.GetComponent<UI_DragCheck>();
             if (letterDrag == null)
-                letterDrag = letterObject.AddComponent<UI_DragCheck>();
+                letterDrag = spawnedLetter.AddComponent<UI_DragCheck>();
+
             letterDrag.mailData = mailData;
         }
 

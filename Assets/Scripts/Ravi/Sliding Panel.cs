@@ -9,7 +9,7 @@ public class SlidingPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public float shownX = 0f;        // position when fully visible
     public float slideSpeed = 8f;    // how fast it slides
 
-    private bool isHovered = false;
+    //private bool isHovered = false;
     private Vector2 targetPos;
 
     void Start()
