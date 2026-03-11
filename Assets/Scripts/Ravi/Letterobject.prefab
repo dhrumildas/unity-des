@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5551891277896380171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbdcb72d43db2c4493701eda7df26e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_DragCheck
-  mailData: {fileID: 0}
+  mailData: {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
 --- !u!1 &3481686229073489548
 GameObject:
   m_ObjectHideFlags: 0

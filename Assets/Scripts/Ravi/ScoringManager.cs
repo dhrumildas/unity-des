@@ -161,6 +161,44 @@ public class ScoreManager : MonoBehaviour
     }
 
 
+    public string GetRuleDescription(MailRules rule)
+    {
+        switch (rule)
+        {
+            // The Constant Rules
+            case MailRules.Address:
+                return "Must be correctly addressed.";
+            case MailRules.Signature:
+                return "Requires a valid signature.";
+            case MailRules.Contraband:
+                return "REPORT any contraband or hazards.";
+
+            // The Randomized Limit Rules
+            case MailRules.Sentences:
+                return $"Reject if over {currentMaxSentences} sentences.";
+            case MailRules.Weight:
+                return $"Reject if over {currentMaxWeight}g.";
+            case MailRules.Dimension:
+                return $"Reject if over {currentMaxDimensions.x}x{currentMaxDimensions.y}mm.";
+            case MailRules.GiftValue:
+                return $"Reject gifts over ${currentMaxGiftValue}.";
+
+            // The Special Rules
+            case MailRules.Questions:
+                if (currentDayConfig != null && currentDayConfig.ExactlyOneQuestion)
+                    return "Requires exactly ONE question.";
+                else
+                    return "Maximum ONE question allowed.";
+
+            case MailRules.Postage:
+                return "Requires correct regional postage.";
+            case MailRules.Country:
+                return "Must be from approved country.";
+
+            default:
+                return "Unknown rule applied.";
+        }
+    }
 
     public int GetTotalScore() => totalScore;
     public int GetCorrect() => correctDecisions;
