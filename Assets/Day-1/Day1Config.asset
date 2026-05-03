@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DayConfig
   dayNumber: 1
   dayDuration: 60
+  isTutorialDay: 0
   tutorialAccept: {fileID: 11400000, guid: 8e2ab873ed075c14598ee4c975e7e869, type: 2}
   tutorialReply: {fileID: 11400000, guid: d53ef16905223e5458ec5d63c2dca406, type: 2}
   tutorialReject: {fileID: 11400000, guid: 1a067a17d96fd4c4dbff0f1cb20b7996, type: 2}

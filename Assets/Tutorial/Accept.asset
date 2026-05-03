@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6281f3fb73da04f98f8b51cf82c8bc, type: 3}
+  m_Name: Accept
+  m_EditorClassIdentifier: Assembly-CSharp::MailSorting.Data.Mail_Items_SO
+  mailID: 
+  mailType: 0
+  appearanceDay: 1
+  senderProfile: 0
+  spawnType: 1
+  senderName: Jonathan
+  senderAddress: 23rd Boulevard
+  fanProfileID: 
+  companyAddress: ' '
+  howAuroraAddressed: Dear Aurora
+  addressedCorrectly: 1
+  signatureName: 
+  signedCorrectly: 1
+  letterContent: 'Hello Aurora,
+
+    You have been an inspiration to me and my younger
+    sister. We are so excited to know you''re coming to Chicago!! '
+  sentenceCount: 2
+  containsQuestion: 0
+  questionCount: 0
+  letterContentImage: {fileID: 0}
+  isEncrypted: 0
+  countryOfOrigin: 0
+  postageType: 0
+  weight: 26
+  dimensions: {x: 21, y: 15}
+  packageSideSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemInsideDescription: 
+  itemInsideSprite: {fileID: 0}
+  customsFormDescription: 
+  containsContraband: 0
+  contrabandType: 0
+  containsMetal: 0
+  containsSubstance: 0
+  substanceType: 0
+  containsOffence: 0
+  offenceType: 0
+  giftValue: 0
+  mailSprite: {fileID: 0}
+  contentSprite: {fileID: 0}
+  postageStampSprite: {fileID: 0}
+  visualClues: []
+  replyCategory: 1
+  replyTextOverride: 

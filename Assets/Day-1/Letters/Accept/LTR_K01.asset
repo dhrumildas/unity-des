@@ -15,7 +15,7 @@ MonoBehaviour:
   mailID: K01
   mailType: 0
   appearanceDay: 1
-  senderProfile: 1
+  importance: 1
   spawnType: 0
   senderName: Katsuki
   senderAddress: 42 Neon Lane, Shibuya
@@ -50,8 +50,6 @@ MonoBehaviour:
   containsMetal: 0
   containsSubstance: 0
   substanceType: 0
-  containsOffence: 0
-  offenceType: 0
   giftValue: 0
   mailSprite: {fileID: 0}
   contentSprite: {fileID: 0}

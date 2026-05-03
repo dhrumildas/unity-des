@@ -109,9 +109,9 @@ namespace MailSorting.UI
                 ? "No return address"
                 : currentMail.senderAddress;
 
-            addressNameText.text = string.IsNullOrEmpty(currentMail.addressedName)
+            addressNameText.text = string.IsNullOrEmpty(currentMail.howAuroraAddressed)
                 ? "(no addressee)"
-                : currentMail.addressedName;
+                : currentMail.howAuroraAddressed;
 
             // Postage
             countryOfOriginText.text = currentMail.countryOfOrigin.ToString();

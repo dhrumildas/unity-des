@@ -4,7 +4,7 @@ using MailSorting.Data;
 
 public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Mail_SO mailData;
+    public Mail_Items_SO mailData;
 
     private RectTransform rt;
     private Canvas mainCanvas;
@@ -14,24 +14,43 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     private bool isDragging = false;
 
-    void Awake()
+    //void Awake()
+    //{
+    //    rt = GetComponent<RectTransform>();
+    //    mainCanvas = GetComponentInParent<Canvas>();
+
+    //    canvasGroup = GetComponent<CanvasGroup>();
+    //    if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+    //    sortingCanvas = GetComponent<Canvas>();
+    //    if (sortingCanvas == null) sortingCanvas = gameObject.AddComponent<Canvas>();
+
+    //    if (GetComponent<UnityEngine.UI.GraphicRaycaster>() == null)
+    //        gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+
+    //    originalParent = transform.parent;
+
+    //    // Removed the Weighing Scale Awake caching here to prevent Null Errors!
+    //}
+
+    // Changed Awake to Start since envelope is breaking on click and drag 
+    void Start()
     {
         rt = GetComponent<RectTransform>();
         mainCanvas = GetComponentInParent<Canvas>();
-
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
         sortingCanvas = GetComponent<Canvas>();
         if (sortingCanvas == null) sortingCanvas = gameObject.AddComponent<Canvas>();
-
         if (GetComponent<UnityEngine.UI.GraphicRaycaster>() == null)
             gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-
         originalParent = transform.parent;
-
-        // Removed the Weighing Scale Awake caching here to prevent Null Errors!
     }
+
+    // void SetOriginalParent(Transform newParent)
+    //{
+    //    originalParent = newParent;
+    //}
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -57,6 +76,9 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (mainCanvas == null)
+            mainCanvas = GetComponentInParent<Canvas>();
+
         rt.anchoredPosition += eventData.delta / mainCanvas.scaleFactor;
     }
 
@@ -115,4 +137,5 @@ public class UI_DragCheck : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             }
         }
     }
+
 }

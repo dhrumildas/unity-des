@@ -15,20 +15,22 @@ MonoBehaviour:
   mailID: R02
   mailType: 0
   appearanceDay: 1
-  importance: 0
+  senderProfile: 0
   spawnType: 1
   senderName: Marcus Webb
   senderAddress: 14 King's Road, London
   fanProfileID: 
-  addressedName: Dear Aurora
+  companyAddress: 
+  howAuroraAddressed: 
   addressedCorrectly: 1
   signatureName: Marcus Webb
   signedCorrectly: 1
   letterContent: My daughter is turning seven next week and she adores you. She listens
     to Starlight on repeat every single day. It would mean the world if you could
     send a birthday message. We would be forever grateful.
-  sentenceCount: 3
+  sentenceCount: 4
   containsQuestion: 0
+  questionCount: 0
   letterContentImage: {fileID: 0}
   isEncrypted: 0
   countryOfOrigin: 0
@@ -57,5 +59,3 @@ MonoBehaviour:
   visualClues: []
   replyCategory: 1
   replyTextOverride: 
-  idealAction: 0
-  brokenRuleIDs: []

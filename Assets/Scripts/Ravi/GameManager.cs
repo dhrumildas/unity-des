@@ -1,29 +1,23 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using MailSorting.Data;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Day Configs — in order")]
-    public DayConfig[] allDays;
+    [Header("Day Settings")]
+    public int currentDay = 1;
+    public int totalDays = 7;
 
-    // current day
-    public int currentDayIndex = 0;
-    public DayConfig CurrentDay => allDays[currentDayIndex];
+    [Header("Day Configs")]
+    public DayConfig[] dayConfigs; // assign all 7 days in Inspector
 
-    // character scores (hidden)
-    public int characterAScore = 0;
-    public int characterBScore = 0;
-    public int characterCScore = 0;
+    [Header("Ending Thresholds")]
+    public int passingScorePerDay = 50;
 
-    // carried over unsorted random mails
-    public List<Mail_Items_SO> carriedOverMail = new List<Mail_Items_SO>();
-
-    // track what spawned this day that is guaranteed
-    [HideInInspector] public List<Mail_Items_SO> spawnedGuaranteedToday = new List<Mail_Items_SO>();
-    [HideInInspector] public List<Mail_Items_SO> sortedToday = new List<Mail_Items_SO>();
+    // Tracks cumulative score across all days
+    private int cumulativeScore = 0;
 
     void Awake()
     {
@@ -35,73 +29,55 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void OnGuaranteedSorted(Mail_Items_SO mail, int score)
+    public DayConfig GetCurrentDayConfig()
     {
-        sortedToday.Add(mail);
-
-        DayConfig day = CurrentDay;
-
-        // add to correct character score
-        if (mail == day.characterAMail) characterAScore += score;
-        else if (mail == day.characterBMail) characterBScore += score;
-        else if (mail == day.characterCMail) characterCScore += score;
-
-        Debug.Log($"[GM] Character scores — A:{characterAScore} B:{characterBScore} C:{characterCScore}");
+        if (dayConfigs == null || dayConfigs.Length == 0) return null;
+        int idx = currentDay - 1;
+        if (idx < 0 || idx >= dayConfigs.Length) return null;
+        return dayConfigs[idx];
     }
 
-    public void OnRandomSorted(Mail_Items_SO mail)
+    public void OnDayComplete(int dayScore)
     {
-        sortedToday.Add(mail);
-    }
+        cumulativeScore += dayScore;
+        bool passed = dayScore >= passingScorePerDay;
 
-    public void OnDayEnd(List<Mail_Items_SO> allSpawnedRandom)
-    {
-        carriedOverMail.Clear();
+        Debug.Log($"[GameManager] Day {currentDay} complete. Score: {dayScore}. Passed: {passed}");
 
-        // count how many times each mail was sorted
-        Dictionary<Mail_Items_SO, int> sortedCounts = new Dictionary<Mail_Items_SO, int>();
-        foreach (var mail in sortedToday)
+        if (!passed)
         {
-            if (sortedCounts.ContainsKey(mail))
-                sortedCounts[mail]++;
-            else
-                sortedCounts[mail] = 1;
+            TriggerGameOver();
+            return;
         }
 
-        // for each spawned random, carry over if not enough were sorted
-        Dictionary<Mail_Items_SO, int> spawnedCounts = new Dictionary<Mail_Items_SO, int>();
-        foreach (var mail in allSpawnedRandom)
+        if (currentDay >= totalDays)
         {
-            if (spawnedCounts.ContainsKey(mail))
-                spawnedCounts[mail]++;
-            else
-                spawnedCounts[mail] = 1;
+            TriggerEnding();
+            return;
         }
 
-        foreach (var kvp in spawnedCounts)
-        {
-            Mail_Items_SO mail = kvp.Key;
-            int spawnedCount = kvp.Value;
-            int sortedCount = sortedCounts.ContainsKey(mail) ? sortedCounts[mail] : 0;
-            int unsortedCount = spawnedCount - sortedCount;
-
-            for (int i = 0; i < unsortedCount; i++)
-            {
-                carriedOverMail.Add(mail);
-                Debug.Log($"[GM] Carrying over: {mail.mailID}");
-            }
-        }
-
-        Debug.Log($"[GM] Day {currentDayIndex + 1} ended. {carriedOverMail.Count} mails carried over.");
-
-        spawnedGuaranteedToday.Clear();
-        sortedToday.Clear();
+        currentDay++;
     }
 
-    public void ProceedToNextDay()
+    public void LoadNextDay()
     {
-        currentDayIndex++;
-        // scene loading will go here later
-        Debug.Log($"[GM] Moving to Day {currentDayIndex + 1}");
+        // Reload same scene — MailSpawner will pick up new DayConfig
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void TriggerGameOver()
+    {
+        Debug.Log("[GameManager] Game Over!");
+        // TODO: load game over scene
+    }
+
+    public void TriggerEnding()
+    {
+        Debug.Log($"[GameManager] All 7 days complete! Cumulative score: {cumulativeScore}");
+        // TODO: check NarrativeTracker records to determine which ending
+        // NarrativeTracker.Instance.GetRecord(CharacterSender.Katsuki) etc.
+    }
+
+    public int GetCumulativeScore() => cumulativeScore;
+    public int GetCurrentDay() => currentDay;
 }

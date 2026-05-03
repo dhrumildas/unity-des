@@ -9,8 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 4c4af19f4ddebbb4ba8036bb852007e2
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/CutscenesScene.unity
+    guid: 0200165df3a168d48808df7c980684a5
+  - enabled: 1
+    path: Assets/Scenes/CardDrag.unity
+    guid: 4c1a343b3386b6546aa3ac2b8d088547
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 68934ba51ae795c4fa4ee0ff1874678b
+  - enabled: 1
+    path: Assets/Scenes/CustomUITest.unity
+    guid: 432232e022378914192906c3f936be42
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -10,7 +10,7 @@ public class DragCheck : MonoBehaviour
     private Vector3 offset;
     private Collider2D thisCollider;
     private Camera mainCamera;
-    private MailSorting.UI.MailInspectionManager inspectionManager;
+    //private MailSorting.UI.MailInspectionManager inspectionManager;
     public Mail_Items_SO mailData;
     public Collider2D rulerCollider;
     public Collider2D weighingscaleCollider;
@@ -31,10 +31,10 @@ public class DragCheck : MonoBehaviour
         ogPos = transform.position;
     }
 
-    public void SetInspectionManager(MailSorting.UI.MailInspectionManager manager)
-    {
-        inspectionManager = manager;
-    }
+    //public void setinspectionmanager(mailsorting.ui.mailinspectionmanager manager)
+    //{
+    //    inspectionmanager = manager;
+    //}
 
     private void OnMouseDown()
     {
@@ -63,8 +63,8 @@ public class DragCheck : MonoBehaviour
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() =>
                 {
-                    if (inspectionManager != null)
-                        inspectionManager.InspectMail(mailData,gameObject);
+                    //if (inspectionManager != null)
+                    //    inspectionManager.InspectMail(mailData,gameObject);
 
                     inspectButton.SetActive(false);
                 });
